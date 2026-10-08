@@ -4,6 +4,7 @@ import {Ad} from './Ad';
 import {DURATION, FPS} from './timeline';
 import './theme';
 import {CarouselCard, DECKS} from './carousel/Cards';
+import {REEL_DURATION, ReelA} from './reel/ReelA';
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -25,6 +26,7 @@ export const RemotionRoot: React.FC = () => (
       height={1350}
       defaultProps={{fmt: '45' as const}}
     />
+    <Composition id="ReelA" component={ReelA} durationInFrames={REEL_DURATION} fps={FPS} width={1080} height={1920} />
     {(['A', 'B'] as const).flatMap((deck) =>
       DECKS[deck].map((_, i) => (
         <Composition

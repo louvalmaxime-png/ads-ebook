@@ -76,6 +76,16 @@ Bouton d'action : **Shop Now**.
 - L'avis d'Ethan.SW : il est en français et noté 4 étoiles. Il reste utilisable dans une version française, avec sa note réelle.
 - Toute statistique ou promesse de résultat absente de tes visuels et de tes réponses.
 
+## Version vidéo (Reels et Stories)
+
+`video/reel_A_9x16.mp4` : le carrousel A en motion design, 27,5 s, 1080×1920, H.264, 30 i/s. Même ordre que les cartes : le mur, les quatre marches, la règle, l'instrument, les 3 tomes, les avis, l'offre.
+
+- Placements : Reels et Stories Instagram et Facebook. Le carrousel reste la version pour le fil.
+- Texte principal : celui du carrousel A.
+- Image de couverture : `video/reel_A_cover.png` (image 75, l'accroche complète).
+- Son : la vidéo est muette. `video/reel_A_cues.csv` donne l'image de chaque effet si tu ajoutes une musique dans le Gestionnaire de publicités ou dans CapCut.
+- Régénérer : `cd motion-ad/video && ./scripts/render-reel.sh`
+
 ## Régénérer les images
 
 ```bash
