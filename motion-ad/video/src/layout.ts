@@ -13,24 +13,12 @@ export const PLACE: Record<Fmt, {x: number; y: number; s: number}> = {
 export const ORBIT = {cx: 450, cy: 600, r: 198};
 export const DIAG = ORBIT.r * Math.SQRT1_2;
 
-// S5 pack: pack.jpg pixels -> box pixels
-export const PACK = {x0: 71.5, y0: 100, s: 0.846, sx: 55, sy: 222};
-export const packX = (sx: number) => PACK.x0 + (sx - PACK.sx) * PACK.s;
-export const packY = (sy: number) => PACK.y0 + (sy - PACK.sy) * PACK.s;
-
-// Intensity cut-out (from problem.jpg, crop origin 1085,575, 840 x 1190):
-// silhouette centre (1500, 1161.5) -> (415, 586.5) in the image, height 1075.
-export const INT_IMG = {w: 840, h: 1190, cx: 415, cy: 586.5, silH: 1075};
-// In the pack its front cover (1141,640 / 1033 px tall) sits on the left
-// book of pack.jpg (85,244 / 473 px tall).
-const K5 = (473 / 1033) * PACK.s;
-const LEFT5 = packX(85) - (1141 - 1085) * K5;
-const TOP5 = packY(244) - (640 - 575) * K5;
-export const INT_S4 = {cx: ORBIT.cx, cy: ORBIT.cy, h: 372, rot: 6};
-export const INT_S5 = {
-  cx: LEFT5 + INT_IMG.cx * K5,
-  // 14px up: keeps the hardcover's page block hidden behind Volume
-  cy: TOP5 + INT_IMG.cy * K5 - 14,
-  h: INT_IMG.silH * K5,
-  rot: 0,
+// Book poses (box px, degrees). S4 copies the tilt of instrument.jpg,
+// S5 the pack of pack.jpg: spine shows on the left book, pages on the right one.
+export const POSE = {
+  s4: {cx: ORBIT.cx, cy: ORBIT.cy, h: 380, rx: 6, ry: -30, rz: 7},
+  s4Drop: {cx: ORBIT.cx, cy: ORBIT.cy - 170, h: 360, rx: 14, ry: -52, rz: -6},
+  intensity: {cx: 218, cy: 330, h: 398, rx: 0, ry: 20, rz: 0},
+  volume: {cx: 450, cy: 322, h: 410, rx: 0, ry: 0, rz: 0},
+  periodization: {cx: 682, cy: 330, h: 398, rx: 0, ry: -20, rz: 0},
 };

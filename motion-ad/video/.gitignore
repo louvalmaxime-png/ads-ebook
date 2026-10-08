@@ -1,3 +1,4 @@
 node_modules/
-# copied from ../audio by scripts/render.sh
+# synced from ../covers and ../audio by scripts/prepare.sh
+public/covers/
 public/audio/

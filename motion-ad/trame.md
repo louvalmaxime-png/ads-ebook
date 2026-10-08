@@ -22,7 +22,7 @@
 
 ## À fournir
 
-- `covers/intensity.png`, `volume.png`, `periodization.png` : les trois couvertures à plat. Sans elles, le prompt découpe les livres dans les slides, avec un rendu moins net.
+- `covers/intensity.webp`, `volume.webp`, `periodization.webp` : les trois couvertures à plat (fournies). La vidéo en tire des livres 3D : couverture, dos, tranche de pages, ombre.
 - `audio/music.mp3` : électro sombre et minimale, 120 BPM, attaque sur le premier temps. `audio/sfx/` : `pop`, `tick`, `click`, `impact` en .mp3. Sans audio, la vidéo sort muette avec un fichier de cues pour poser le son ailleurs.
 
 ## Lancer
@@ -47,4 +47,4 @@ npm install
 
 Sans dossier `audio/`, les vidéos sortent muettes. Dépose `audio/music.mp3` et `audio/sfx/{pop,tick,click,impact}.mp3`, relance le script : le son se cale sur les repères de `cues.csv` et le mixage est normalisé à −14 LUFS.
 
-Les livres viennent des slides (`tools/cutouts.py` les détoure). Le tome Intensity est pris dans la slide « Problem », en haute définition et sans la coquille « STRENGTN » de la slide du pack.
+Les livres sont construits en 3D à partir des couvertures de `covers/` (le script `prepare.sh` les copie dans `video/public/`).

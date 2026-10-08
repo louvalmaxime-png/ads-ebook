@@ -1,19 +1,16 @@
 import React from 'react';
-import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 import {CameraMotionBlur} from '@remotion/motion-blur';
 import {C, HEAD, body, head} from '../theme';
 import {CLAMP, lerp, pop, prog, slam, spr} from '../anim';
-import {PACK, packX, packY} from '../layout';
+import {POSE} from '../layout';
+import {Book3D, Pose} from '../ui/Book3D';
 import {Words, seq} from '../ui/Words';
-import {glow, glowFilter} from './IntensityBook';
+import {bookFilter, glow} from './IntensityBook';
 
-type Rise = {x: number; y: number; w: number; h: number; at: number; rgb: string; src: string};
-const VOL: Rise = {
-  x: packX(330), y: packY(222), w: 370 * PACK.s, h: 520 * PACK.s, at: 435, rgb: '66,198,204', src: 'img/volume.png',
-};
-const PER: Rise = {
-  x: packX(664), y: packY(222), w: 326 * PACK.s, h: 520 * PACK.s, at: 450, rgb: '158,101,203', src: 'img/periodization.png',
-};
+type Rise = {pose: Pose; at: number; rgb: string; src: string};
+const VOL: Rise = {pose: POSE.volume, at: 435, rgb: '66,198,204', src: 'covers/volume.webp'};
+const PER: Rise = {pose: POSE.periodization, at: 450, rgb: '158,101,203', src: 'covers/periodization.webp'};
 const FLOOR = 610; // books rise out from behind this line
 const RISE = 520;
 
@@ -22,17 +19,7 @@ const Rising: React.FC<{b: Rise}> = ({b}) => {
   if (f < b.at) return null;
   const r = spr(f, b.at, {stiffness: 170, damping: 20});
   return (
-    <Img
-      src={staticFile(b.src)}
-      style={{
-        position: 'absolute',
-        left: b.x,
-        top: b.y + lerp(RISE, 0, r),
-        width: b.w,
-        height: b.h,
-        filter: glowFilter(b.rgb, glow(f, b.at)),
-      }}
-    />
+    <Book3D src={b.src} pose={{...b.pose, cy: b.pose.cy + lerp(RISE, 0, r)}} filter={bookFilter(b.rgb, glow(f, b.at))} />
   );
 };
 

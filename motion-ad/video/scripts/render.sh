@@ -8,8 +8,7 @@ cd "$(dirname "$0")/.."
 OUT=../out
 mkdir -p "$OUT"
 
-rm -rf public/audio
-if [ -d ../audio ]; then cp -r ../audio public/audio; fi
+./scripts/prepare.sh
 
 BROWSER=()
 if [ -n "${REMOTION_BROWSER:-}" ]; then BROWSER=(--browser-executable "$REMOTION_BROWSER"); fi

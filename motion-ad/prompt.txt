@@ -1,7 +1,7 @@
 ROLE Senior motion designer, direct response.
 GOAL 20s video ad for cold paid social (Meta Reels/Feed) that sells the 3-ebook pack, built from 5 static slides.
 
-INPUTS (paths relative to motion-ad/) refs/{problem,steps,hard,instrument,pack}.jpg (problem = "Your problem / Our answer") · covers/{intensity,volume,periodization}.png · audio/music.mp3, audio/sfx/{pop,tick,click,impact}.mp3
+INPUTS (paths relative to motion-ad/) refs/{problem,steps,hard,instrument,pack}.jpg (problem = "Your problem / Our answer") · covers/{intensity,volume,periodization}.webp · audio/music.mp3, audio/sfx/{pop,tick,click,impact}.mp3
 BUILD Remotion + TS in video/. Comps Ad916 1080×1920 (master), Ad45 1080×1350 (re-layout, not crop). 30fps, 600f, H.264 CRF 17, audio −14 LUFS. No Remotion → one HTML+GSAP file, same timeline.
 ASSETS Rebuild all type & shapes as vectors in the refs' style; re-layout per format, keep each ref's hierarchy. Raster = covers only → CSS 3D hardcover (spine, page edge, contact shadow), posed as in refs. No covers → crop Intensity from problem.jpg, 3-book group from pack.jpg (one layer). Drop "n / 5"; keep URL footer.
 BRAND bg #EFEDE7 · ink #121518 · red #D63C1E · surface #E4DED8 · lines #A8A6A0 · muted #7C7C76 · book glows #D85632 / #42C6CC / #9E65CB. Bebas Neue headlines (lh .9), Inter 500 body ≥34px, via @remotion/google-fonts.
