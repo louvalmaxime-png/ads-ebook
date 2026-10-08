@@ -3,6 +3,7 @@ import {Composition} from 'remotion';
 import {Ad} from './Ad';
 import {DURATION, FPS} from './timeline';
 import './theme';
+import {CarouselCard, DECKS} from './carousel/Cards';
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -24,5 +25,19 @@ export const RemotionRoot: React.FC = () => (
       height={1350}
       defaultProps={{fmt: '45' as const}}
     />
+    {(['A', 'B'] as const).flatMap((deck) =>
+      DECKS[deck].map((_, i) => (
+        <Composition
+          key={`${deck}${i + 1}`}
+          id={`Card${deck}${String(i + 1).padStart(2, '0')}`}
+          component={CarouselCard}
+          durationInFrames={1}
+          fps={FPS}
+          width={1080}
+          height={1080}
+          defaultProps={{deck, index: i + 1}}
+        />
+      )),
+    )}
   </>
 );
