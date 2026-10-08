@@ -32,3 +32,19 @@ Dans Claude Code, à la racine du repo : « Exécute motion-ad/prompt.txt ». Va
 ## Avant diffusion
 
 - « UP TO 55% OFF » doit correspondre aux prix réels des tomes vendus seuls, et « Founding seats, limited » à une limite réelle.
+
+## Rendu
+
+Le projet Remotion est dans `video/`, les fichiers livrés dans `out/` : `ad_916.mp4` (Reels, Stories), `ad_45.mp4` (fil), `poster.png` (image 0) et `cues.csv` (carte du son, frame par frame).
+
+Pour régénérer après une modification :
+
+```bash
+cd motion-ad/video
+npm install
+./scripts/render.sh
+```
+
+Sans dossier `audio/`, les vidéos sortent muettes. Dépose `audio/music.mp3` et `audio/sfx/{pop,tick,click,impact}.mp3`, relance le script : le son se cale sur les repères de `cues.csv` et le mixage est normalisé à −14 LUFS.
+
+Les livres viennent des slides (`tools/cutouts.py` les détoure). Le tome Intensity est pris dans la slide « Problem », en haute définition et sans la coquille « STRENGTN » de la slide du pack.

@@ -1,0 +1,3 @@
+node_modules/
+# copied from ../audio by scripts/render.sh
+public/audio/
