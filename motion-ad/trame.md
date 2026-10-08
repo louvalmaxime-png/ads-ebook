@@ -45,6 +45,6 @@ npm install
 ./scripts/render.sh
 ```
 
-Sans dossier `audio/`, les vidéos sortent muettes. Dépose `audio/music.mp3` et `audio/sfx/{pop,tick,click,impact}.mp3`, relance le script : le son se cale sur les repères de `cues.csv` et le mixage est normalisé à −14 LUFS.
+Le son est généré par `sound/design.py` : une musique originale (électro sombre, 120 BPM, la mineur) et les effets (pops, ticks, clics, impacts, whooshes), synthétisés sans échantillon, donc libres de droits. Le mixage suit les repères de `video/src/cues.json`, baisse la musique sous les impacts, coupe tout un temps avant le prix, puis atteint −14 LUFS. Pistes séparées dans `out/audio/`. Pour utiliser ta propre musique à la place, dépose `audio/music.mp3` et `audio/sfx/*.mp3` : le rendu Remotion les prend et le son synthétisé n'est plus appliqué.
 
 Les livres sont construits en 3D à partir des couvertures de `covers/` (le script `prepare.sh` les copie dans `video/public/`).

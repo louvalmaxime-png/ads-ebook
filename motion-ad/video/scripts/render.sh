@@ -22,6 +22,15 @@ for comp in Ad916 Ad45; do
   fi
 done
 
+# Sound design (synthesised score + SFX) unless you supplied your own audio/
+if [ ! -d ../audio ]; then
+  if python3 -c "import numpy, scipy, pyloudnorm" 2>/dev/null; then
+    python3 ../sound/design.py ad
+  else
+    echo "Sound: pip install -r ../sound/requirements.txt, then python3 ../sound/design.py ad"
+  fi
+fi
+
 npx remotion still src/index.ts Ad916 "$OUT/poster.png" --frame=0 ${BROWSER[@]+"${BROWSER[@]}"}
 node scripts/cues-csv.mjs > "$OUT/cues.csv"
 echo "Done: $OUT"

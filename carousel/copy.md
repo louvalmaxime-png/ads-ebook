@@ -83,8 +83,8 @@ Bouton d'action : **Shop Now**.
 - Placements : Reels et Stories Instagram et Facebook. Le carrousel reste la version pour le fil.
 - Texte principal : celui du carrousel A.
 - Image de couverture : `video/reel_A_cover.png` (image 75, l'accroche complète).
-- Son : la vidéo est muette. `video/reel_A_cues.csv` donne l'image de chaque effet si tu ajoutes une musique dans le Gestionnaire de publicités ou dans CapCut.
-- Régénérer : `cd motion-ad/video && ./scripts/render-reel.sh`
+- Son : musique originale à 120 BPM et effets synthétisés, calés sur l'image (−14 LUFS). Pistes séparées dans `video/audio/` : `reel_A_mix.m4a`, `reel_A_music.m4a`, `reel_A_sfx.m4a`. Pour changer la musique, garde les effets et remplace la piste musique dans CapCut.
+- Régénérer l'image et le son : `cd motion-ad/video && ./scripts/render-reel.sh`. Le son seul : `python3 motion-ad/sound/design.py reel`.
 
 ## Régénérer les images
 
