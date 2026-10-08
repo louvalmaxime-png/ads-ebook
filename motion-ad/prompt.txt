@@ -1,0 +1,21 @@
+ROLE Senior motion designer, direct response.
+GOAL 20s video ad for cold paid social (Meta Reels/Feed) that sells the 3-ebook pack, built from 5 static slides.
+
+INPUTS (paths relative to motion-ad/) refs/{problem,steps,hard,instrument,pack}.jpg (problem = "Your problem / Our answer") · covers/{intensity,volume,periodization}.png · audio/music.mp3, audio/sfx/{pop,tick,click,impact}.mp3
+BUILD Remotion + TS in video/. Comps Ad916 1080×1920 (master), Ad45 1080×1350 (re-layout, not crop). 30fps, 600f, H.264 CRF 17, audio −14 LUFS. No Remotion → one HTML+GSAP file, same timeline.
+ASSETS Rebuild all type & shapes as vectors in the refs' style; re-layout per format, keep each ref's hierarchy. Raster = covers only → CSS 3D hardcover (spine, page edge, contact shadow), posed as in refs. No covers → crop Intensity from problem.jpg, 3-book group from pack.jpg (one layer). Drop "n / 5"; keep URL footer.
+BRAND bg #EFEDE7 · ink #121518 · red #D63C1E · surface #E4DED8 · lines #A8A6A0 · muted #7C7C76 · book glows #D85632 / #42C6CC / #9E65CB. Bebas Neue headlines (lh .9), Inter 500 body ≥34px, via @remotion/google-fonts.
+COPY Verbatim; *x* = red. Add no claims, stats, testimonials, emojis.
+SAFE Ad916: text & CTA in x 90–990, y 270–1250 (Reels UI); art may bleed to y 1500. Ad45: 60px margins.
+MOTION 120 BPM, beat = 15f; every cut and hit lands on a beat. Ease (.16,1,.3,1).
+reveal = mask up from baseline, 3f/word · pop = spring .7→1, ≤4% overshoot · slam = 1.15→1 in 6f + impact.
+Scene changes: hard or match cuts, never crossfades. Type never plain-fades, bounces or rotates. Holds: push-in ≤3%. Motion blur on fast moves. One dominant motion per beat.
+
+S1 0–105 HOOK (problem.jpg left column). f0 is a finished frame: eyebrow "PLANCHE · FRONT LEVER" (muted, tracked), "YOUR *PROBLEM*", bubble 1 in place (settles 1.06→1 in 8f). Pop bubbles 2–4 at f15/30/45 + pop SFX: "I hold, but nothing improves" · "Tuck to straddle feels like a wall" · "Every session is a guess" · "I never know when to move up". f75: other bubbles dim to 35%, "wall" bubble scales 1.04.
+S2 105–210 STEPS. Reveal "FOUR STEPS THAT LOOK EQUAL." Steps rise with EQUAL risers (6f stagger), labels "*1 —* TUCK" "*2 —* ADVANCED TUCK" "*3 —* STRADDLE PLANCHE" "*4 —* FULL PLANCHE". f165: steps 3–4 shoot to true heights (riser 2→3 ≈3× the others), red dimension bracket draws on it, slam "*THEY AREN'T.*" + 6f micro-shake.
+S3 210–300 HARD. Type on “IT WAS HARD” (curly quotes, key ticks), reveal "IS NOT A", slam "*NUMBER*" at f240. Ruler (10 majors × 4 ticks) slides in; red marker jumps, never settles (tick per jump). f285: numbers 1–10 appear, marker locks (click).
+S4 300–405 INSTRUMENT. Ticks lerp into the dotted orbit (stagger, numbers fade); marker flies to callout dot 1. Reveal "*AN INSTRUMENT*" / "NOT A GUESS". Intensity book drops into orbit (spring), floats ±6px. Pop callouts f330/345/360/375: "A 1–10 scale for static holds" · "Know exactly when to progress" · "Planche and front lever only" · "Private Discord access included".
+S5 405–600 OFFER (pack.jpg). Orbit and callouts collapse; Intensity book slides to left slot. On beats: f420 "HOW HARD." + Intensity glows · f435 "HOW MUCH." + Volume rises · f450 "*WHEN.*" + Periodization rises. Music silent f465–480. f480 slam "ALL THREE — *$44.99*". f495 tag "UP TO 55% OFF" swings in (pendulum). f510 pop button "GET THE PACK" (click). f515 "Instant download • Private Discord included • Founding seats, limited" + "maximecalisthenics.com". f525–600 static end card; button only: sheen f540, pulse f570.
+
+AUDIO Music: minimal dark electronic, 120 BPM, downbeat at f0, no intro; duck −6 dB under hits; fade f570–600. Missing audio → silent render + cues.csv (frame, sfx).
+QC Before final render: stills f0, 50, 150, 180, 250, 290, 390, 470, 599 in both comps. Check copy letter by letter, safe zone, overlaps, contrast, ≥0.25s on screen per word. Fix, re-check, render out/ad_916.mp4, out/ad_45.mp4, out/poster.png (f0).
