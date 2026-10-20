@@ -1,9 +1,11 @@
 # One pass from the original planche photo: paints out apparel and equipment prints.
 # The athlete's body is never touched. Writes planche-park-nologo.webp once.
+import os
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
-SRC=__import__('os').path.join(__import__('os').path.dirname(__file__),'planche-park.jpg')
-DST=__import__('os').path.join(__import__('os').path.dirname(__file__),'planche-park-nologo.webp')
+HERE=os.path.dirname(os.path.abspath(__file__))
+SRC=os.path.join(HERE,'planche-park.jpg')
+DST=os.path.join(HERE,'planche-park-nologo.webp')
 orig=np.asarray(Image.open(SRC).convert('RGB')).astype(np.float32)
 out=orig.copy()
 rng=np.random.default_rng(5)
