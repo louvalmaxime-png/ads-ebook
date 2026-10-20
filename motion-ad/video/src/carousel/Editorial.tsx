@@ -657,7 +657,6 @@ const Switch: React.FC<P> = (p) => (
 const SHELF = {
   base: 884, // where the books stand
   h: 418,
-  rx: -4, // camera a touch above the books: a sliver of each top page block shows
   persp: 3.5,
   books: [
     {src: 'covers/intensity.webp', cx: 223, ry: 22, q: 'HOW HARD?'},
@@ -683,6 +682,22 @@ const Contact: React.FC<{cx: number; w: number; tilt: number}> = ({cx, w, tilt})
     />
   </div>
 );
+// Slope of a turned book's base on screen (deg): Book3D's perspective makes the near
+// corner of the front board drop and the far one rise, so the contact line follows it.
+const baseSlope = (ry: number, w: number) => {
+  const a = (ry * Math.PI) / 180;
+  const d = SHELF.h * SHELF.persp;
+  const z = (SHELF.h * 0.075) / 2; // front board sits half a book thickness forward
+  const corner = (x: number) => {
+    const X = x * Math.cos(a) + z * Math.sin(a);
+    const Z = -x * Math.sin(a) + z * Math.cos(a);
+    const k = d / (d - Z);
+    return [X * k, (SHELF.h / 2) * k];
+  };
+  const [x0, y0] = corner(-w / 2);
+  const [x1, y1] = corner(w / 2);
+  return (Math.atan2(y1 - y0, x1 - x0) * 180) / Math.PI;
+};
 const Q_TRACK = 0.12;
 const Questions: React.FC<P> = (p) => {
   const w = (SHELF.h * 2) / 3;
@@ -691,14 +706,14 @@ const Questions: React.FC<P> = (p) => {
       {...p}
       front={SHELF.books.map((b) => (
         <React.Fragment key={b.src}>
-          <Contact cx={b.cx} w={w * Math.cos((b.ry * Math.PI) / 180) + 10} tilt={-b.ry * 0.09} />
+          <Contact cx={b.cx} w={w * Math.cos((b.ry * Math.PI) / 180) + 10} tilt={baseSlope(b.ry, w)} />
           <Book3D
             src={b.src}
-            pose={{cx: b.cx, cy: SHELF.base - SHELF.h / 2, h: SHELF.h, rx: SHELF.rx, ry: b.ry, rz: 0}}
+            pose={{cx: b.cx, cy: SHELF.base - SHELF.h / 2, h: SHELF.h, rx: 0, ry: b.ry, rz: 0}}
             persp={SHELF.persp}
             sheen={false}
             hinge={false}
-            paper={['#E6E0D5', '#CDC6B9']}
+            paper={['#D2CABD', '#B5AD9F']}
           />
         </React.Fragment>
       ))}
