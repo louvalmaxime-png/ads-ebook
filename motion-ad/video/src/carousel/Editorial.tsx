@@ -61,7 +61,19 @@ const GRAIN =
 const Wordmark: React.FC = () => (
   <div style={{position: 'absolute', left: M, top: 994, display: 'flex', alignItems: 'center', gap: 12}}>
     <span style={{fontFamily: SERIF, fontWeight: 700, fontSize: 29, lineHeight: 1, letterSpacing: '0.04em', color: E.ink}}>MAXIME</span>
-    <span style={{background: E.ink, padding: '8px 9px 7px 13px', fontFamily: SERIF, fontWeight: 700, fontSize: 15, lineHeight: 1, letterSpacing: '0.32em', color: E.acid}}>
+    <span
+      style={{
+        background: E.ink,
+        padding: '8px 7px 7px 11px',
+        fontFamily: SERIF,
+        fontWeight: 700,
+        fontSize: 18,
+        lineHeight: 1,
+        letterSpacing: '0.24em',
+        color: E.acid,
+        transform: 'translateY(2px)',
+      }}
+    >
       CALISTHENICS
     </span>
   </div>
@@ -69,7 +81,9 @@ const Wordmark: React.FC = () => (
 
 type P = {index: number; total: number};
 
-const Card: React.FC<P & {children: React.ReactNode}> = ({index, total, children}) => (
+// Overlay grain is strongest on midtones, so photos and covers sit in `front`, above
+// the page grain: covers stay clean, the hook photo gets its own lighter grain.
+const Card: React.FC<P & {children: React.ReactNode; front?: React.ReactNode}> = ({index, total, children, front}) => (
   <AbsoluteFill style={{background: E.bg, overflow: 'hidden'}}>
     {children}
     <div style={{position: 'absolute', right: M, top: 58, ...small(24, E.muted, 600), letterSpacing: '0.08em'}}>
@@ -77,6 +91,7 @@ const Card: React.FC<P & {children: React.ReactNode}> = ({index, total, children
     </div>
     <Wordmark />
     <AbsoluteFill style={{backgroundImage: GRAIN, opacity: 0.25, mixBlendMode: 'overlay', pointerEvents: 'none'}} />
+    {front}
   </AbsoluteFill>
 );
 
@@ -134,7 +149,7 @@ const Brush: React.FC<{children: React.ReactNode}> = ({children}) => (
     <svg
       viewBox="0 0 400 30"
       preserveAspectRatio="none"
-      style={{position: 'absolute', left: '-2%', width: '105%', top: '0.765em', height: '0.18em', overflow: 'visible'}}
+      style={{position: 'absolute', left: '-2%', width: '105%', top: '0.76em', height: '0.24em', overflow: 'visible'}}
     >
       <defs>
         <filter id="brush-edge" x="-5%" y="-80%" width="110%" height="260%">
@@ -167,10 +182,11 @@ const Brush: React.FC<{children: React.ReactNode}> = ({children}) => (
 // Three different pencil question marks (not one glyph cloned): graphite double
 // line, uneven pressure, grain, and a faint knock-out so they read on busy ground.
 const QUESTION = [
-  {stem: 'M9 17 C 9 5, 31 2, 32 15 C 33 25, 22 27, 20.5 38 L 21 45', ghost: 'M10.5 16 C 11 6.5, 29.5 4, 30.5 15.5 C 31 24, 23 26.5, 21.5 37', dot: 'M20 55.5 l 2 0.6 l -0.5 1.9 l -1.9 -0.4 Z'},
-  {stem: 'M7 20 C 5 7, 22 1, 31 9 C 39 17, 30 26, 23 30 C 19 32.5, 19 37, 19.5 44', ghost: 'M8.5 18 C 8 8, 22 3.5, 29.5 10 C 36 16.5, 29 24.5, 22.5 28.5', dot: 'M18.6 54 l 2.4 -0.2 l 0.1 2.2 l -2.2 0.3 Z'},
+  {stem: 'M9 17 C 9 5, 31 2, 32 15 C 33 25, 22 27, 20.5 38 L 21 45', ghost: 'M10.5 16 C 11 6.5, 29.5 4, 30.5 15.5 C 31 24, 23 26.5, 21.5 37', dot: 'M19.6 55 c 1.4 -0.8, 2.9 0.2, 2.5 1.5 c -0.4 1.3, -2.2 1.5, -2.8 0.3 c -0.2 -0.6, -0.1 -1.3, 0.3 -1.8 Z'},
+  {stem: 'M7 20 C 5 7, 22 1, 31 9 C 39 17, 30 26, 23 30 C 19 32.5, 19 37, 19.5 44', ghost: 'M8.5 18 C 8 8, 22 3.5, 29.5 10 C 36 16.5, 29 24.5, 22.5 28.5', dot: 'M18.8 53.6 c 1 -0.5, 2.5 -0.3, 2.6 0.9 c 0.1 1.4, -1.3 1.9, -2.4 1.4 c -0.8 -0.4, -1 -1.6, -0.2 -2.3 Z'},
   {stem: 'M10 14 C 13 5, 29 4, 31 14 C 32.5 22, 24 24, 21 31 C 19.5 35, 20 39, 20 43', ghost: 'M11.5 13 C 14.5 6.5, 27.5 5.5, 29.5 14 C 30.5 20.5, 24 23, 21.5 29', dot: 'M19 53 c 1.2 -0.6, 2.4 0, 2.2 1.2 c -0.3 1.1, -1.8 1.3, -2.3 0.3 Z'},
 ];
+const GRAPHITE = '#2C2C2C';
 const PencilQ: React.FC<{x: number; y: number; rot: number; h: number; shape: number}> = ({x, y, rot, h, shape}) => {
   const q = QUESTION[shape];
   const id = `pencil${shape}`;
@@ -188,14 +204,14 @@ const PencilQ: React.FC<{x: number; y: number; rot: number; h: number; shape: nu
           <feGaussianBlur stdDeviation={1.6} />
         </filter>
       </defs>
-      <g stroke={E.bg} strokeWidth={7} strokeLinecap="round" fill={E.bg} opacity={0.7} filter={`url(#${id}-halo)`}>
+      <g stroke={E.bg} strokeWidth={9} strokeLinecap="round" fill={E.bg} opacity={0.85} filter={`url(#${id}-halo)`}>
         <path d={q.stem} fill="none" />
         <path d={q.dot} />
       </g>
-      <g filter={`url(#${id})`} stroke="#3A3A3A" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path d={q.stem} strokeWidth={2.9} opacity={0.85} />
-        <path d={q.ghost} strokeWidth={1.3} opacity={0.5} />
-        <path d={q.dot} strokeWidth={2.6} fill="#3A3A3A" opacity={0.85} />
+      <g filter={`url(#${id})`} stroke={GRAPHITE} fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path d={q.stem} strokeWidth={3.6} opacity={0.9} />
+        <path d={q.ghost} strokeWidth={1.4} opacity={0.65} />
+        <path d={q.dot} strokeWidth={2.2} fill={GRAPHITE} opacity={0.9} />
       </g>
     </svg>
   );
@@ -203,16 +219,28 @@ const PencilQ: React.FC<{x: number; y: number; rot: number; h: number; shape: nu
 
 // The photo fills the right of the card under the headline and bleeds off the right
 // and bottom edges; it starts clear of the wordmark so the footer stays on bone.
-// Almost grayscale, levels set so the wall lands just under the page tone once
-// multiplied with it (whites ~250, blacks lifted to ~22 so fabric keeps detail).
-const FRAME = {x: 470, y: 500, w: S - 470, h: S - 500};
+// Almost grayscale, then a tone curve that lifts the wall to just under the page tone
+// once multiplied with it, rolling the highlights off instead of clipping them, and
+// lifting the blacks a little so the fabric keeps its detail.
+const FRAME = {x: 470, y: 505, w: S - 470, h: S - 505};
+const TONE = '0.075 0.15 0.27 0.4 0.52 0.64 0.75 0.855 0.94 0.985 1';
 const Hook: React.FC<P> = (p) => {
   const ph = PHOTO_A;
   const at = (x: number, y: number) =>
     ph ? [FRAME.x + (x - ph.origin[0]) * ph.scale, FRAME.y + (y - ph.origin[1]) * ph.scale] : [FRAME.x + x * FRAME.w, FRAME.y + y * FRAME.h];
   const marks = ph?.marks ?? PREVIEW_MARKS;
-  return (
-    <Card {...p}>
+  const photo = (
+    <>
+      <svg width={0} height={0} style={{position: 'absolute'}}>
+        <filter id="photo-tone" colorInterpolationFilters="sRGB">
+          <feColorMatrix type="saturate" values="0.08" />
+          <feComponentTransfer>
+            <feFuncR type="table" tableValues={TONE} />
+            <feFuncG type="table" tableValues={TONE} />
+            <feFuncB type="table" tableValues={TONE} />
+          </feComponentTransfer>
+        </filter>
+      </svg>
       <div style={{position: 'absolute', left: FRAME.x, top: FRAME.y, width: FRAME.w, height: FRAME.h, overflow: 'hidden', background: E.block}}>
         {ph ? (
           <>
@@ -225,10 +253,11 @@ const Hook: React.FC<P> = (p) => {
                 width: ph.size[0] * ph.scale,
                 height: ph.size[1] * ph.scale,
                 maxWidth: 'none',
-                filter: 'grayscale(0.92) brightness(1.179) contrast(0.912)',
+                filter: 'url(#photo-tone)',
               }}
             />
             <div style={{position: 'absolute', inset: 0, background: E.bg, mixBlendMode: 'multiply'}} />
+            <div style={{position: 'absolute', inset: 0, backgroundImage: GRAIN, opacity: 0.1, mixBlendMode: 'overlay'}} />
           </>
         ) : (
           <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', ...small(22, E.muted, 600), letterSpacing: '0.16em'}}>
@@ -240,9 +269,13 @@ const Hook: React.FC<P> = (p) => {
         const [cx, cy] = at(x, y);
         return <PencilQ key={i} x={cx} y={cy} rot={rot} h={[76, 84, 72][i % 3]} shape={i % 3} />;
       })}
-      <div style={{position: 'absolute', left: M - 5, top: 112, display: 'flex', flexDirection: 'column', gap: 14}}>
+    </>
+  );
+  return (
+    <Card {...p} front={photo}>
+      <div style={{position: 'absolute', left: M - 5, top: 119, display: 'flex', flexDirection: 'column', gap: 14}}>
         <div style={head(124)}>DISCIPLINED…</div>
-        <div style={head(124)}>
+        <div style={{...head(124), marginBottom: 10}}>
           BUT TRAINING <Brush>WITHOUT</Brush>
         </div>
         <div style={head(124)}>UNDERSTANDING?</div>
@@ -318,13 +351,15 @@ const SYSTEM = [
   {x: 834, text: 'Weeks & months, planned'},
 ];
 const System: React.FC<P> = (p) => (
-  <Card {...p}>
+  <Card
+    {...p}
+    front={TRIO(500, 400, [246, 540, 834], 14).map((b) => (
+      <Book3D key={b.src} src={b.src} pose={b.pose} filter={covers} />
+    ))}
+  >
     <div style={{position: 'absolute', left: M - 4, top: 120, ...head(100)}}>
       HOW HARD. HOW MUCH. <Mark>WHEN.</Mark>
     </div>
-    {TRIO(500, 400, [246, 540, 834], 14).map((b) => (
-      <Book3D key={b.src} src={b.src} pose={b.pose} filter={covers} />
-    ))}
     {SYSTEM.map((s) => (
       <div key={s.x} style={{position: 'absolute', left: s.x - 140, width: 280, top: 750, textAlign: 'center'}}>
         <div style={{height: 2, background: E.rule, width: 48, margin: '0 auto 16px'}} />
@@ -359,10 +394,12 @@ const Proof: React.FC<P> = (p) => (
 
 // 6 — Offer (11 words)
 const Offer: React.FC<P> = (p) => (
-  <Card {...p}>
-    {TRIO(310, 330, [330, 540, 750], 16).map((b) => (
+  <Card
+    {...p}
+    front={TRIO(310, 330, [330, 540, 750], 16).map((b) => (
       <Book3D key={b.src} src={b.src} pose={b.pose} filter={covers} />
     ))}
+  >
     <div style={{position: 'absolute', left: 0, width: S, top: 512, textAlign: 'center', ...small(28, E.muted)}}>
       <span style={{textDecoration: 'line-through', textDecorationThickness: 2}}>$99.99</span> separately
     </div>

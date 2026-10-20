@@ -106,7 +106,7 @@ Bouton d'action : **Shop Now**.
 
 Photos : seules tes images apparaissent, sans aucune retouche de l'athlète.
 
-- Carte 1 : `motion-ad/photos/front-lever-door-bar.webp` (ta photo 2), presque en noir et blanc, fondue dans le ton du fond, à droite sous le titre. Elle déborde des bords droit et bas, et s'arrête à gauche avant le wordmark. Trois points d'interrogation au crayon, chacun dessiné différemment, près de l'épaule droite, au-dessus de la ceinture scapulaire et à côté des hanches. Le recadrage et la position des points se règlent dans `motion-ad/video/src/carousel/photos.ts`, en pixels de la photo.
+- Carte 1 : ta photo 2, presque en noir et blanc, fondue dans le ton du fond, à droite sous le titre. Le fichier utilisé est `motion-ad/photos/front-lever-door-bar-nologo.webp` : les deux virgules Nike des chaussettes y sont effacées, car le brief n'autorise aucun logo en dehors du wordmark. Seules les chaussettes sont retouchées. L'original `front-lever-door-bar.webp` reste à côté. Elle déborde des bords droit et bas, et s'arrête à gauche avant le wordmark. Trois points d'interrogation au crayon, chacun dessiné différemment, près de l'épaule droite, au-dessus de la ceinture scapulaire et à côté des hanches. Le recadrage et la position des points se règlent dans `motion-ad/video/src/carousel/photos.ts`, en pixels de la photo.
 - Cartes 4 et 6 : les couvertures, en livres 3D, légèrement désaturées.
 - La photo de la carte 1 ne fait que 600×700 px : elle est agrandie de 22 %. Une version en plus haute définition donnerait un rendu plus net.
 

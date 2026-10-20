@@ -16,12 +16,14 @@ export type Photo = {
 
 // Photo 2: front lever on the door bar, white interior.
 export const PHOTO_A: Photo | null = {
-  src: 'photos/front-lever-door-bar.webp',
+  // The -nologo file is the original with the two sock swooshes painted out
+  // (apparel only; the athlete is untouched). The original sits next to it.
+  src: 'photos/front-lever-door-bar-nologo.webp',
   size: [600, 700],
-  origin: [55, 80],
+  origin: [55, 76],
   scale: 1.22,
   marks: [
-    [490, 404, 12], // right shoulder, in the doorway beside the deltoid
+    [503, 404, 8], // right shoulder, on clean wall beside the deltoid
     [382, 290, 4], // shoulder girdle, between the arms above the head
     [140, 455, -10], // hips, in the gap left of the glutes
   ],
