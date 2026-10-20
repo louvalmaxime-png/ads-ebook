@@ -109,7 +109,7 @@ Photos : seules tes images apparaissent, sans aucune retouche de l'athlète.
 - Carte 1 : ta photo 2, presque en noir et blanc, fondue dans le ton du fond, à droite sous le titre. Le fichier utilisé est `motion-ad/photos/front-lever-door-bar-nologo.webp` : les deux virgules Nike des chaussettes y sont effacées, car le brief n'autorise aucun logo en dehors du wordmark. Seules les chaussettes sont retouchées. L'original `front-lever-door-bar.webp` reste à côté. Elle déborde des bords droit et bas, et s'arrête à gauche avant le wordmark. Trois points d'interrogation au crayon, chacun dessiné différemment, près de l'épaule droite, au-dessus de la ceinture scapulaire et à côté des hanches. Le recadrage et la position des points se règlent dans `motion-ad/video/src/carousel/photos.ts`, en pixels de la photo.
 - Carte 2 : aucune photo. La mise à plat (béton, carnet ouvert, écriture au stylo) est dessinée en code, car tu n'as pas de photo de carnet. L'écriture utilise la police Caveat, déformée lettre par lettre pour qu'aucun mot répété ne soit identique. Les lignes du carnet se modifient dans `LOG` (`Editorial.tsx`). Si tu photographies un vrai carnet un jour, je peux le mettre à la place.
 - Carte 3 : ta planche sur parallettes au parc (DSC05664), avec le même cadrage dans les deux moitiés. À gauche en niveaux de gris et légèrement floue, à droite en couleurs naturelles et nette. Le cadrage montre toute la ligne, de la tête aux jambes, avec les deux mains et les deux parallettes. Les spectateurs sont coupés sous le visage. Celui qui filme avec son téléphone ne peut pas sortir du cadre sans couper tes jambes : il est flouté comme un arrière-plan hors mise au point. Pour une pub payante, l'idéal reste son autorisation écrite. Le fichier utilisé est `motion-ad/photos/planche-park-nologo.webp` : le marquage OFFICIAL du short, l'inscription d'un élastique de caleçon, le logo d'une casquette, celui d'un poignet et VIA FORTIS sur un socle de parallette y sont effacés. Seuls les vêtements, le matériel et ce spectateur sont retouchés, jamais ton corps, et l'original `planche-park.jpg` reste à côté. Le script de retouche est dans `motion-ad/photos/nologo_planche.py`.
-- Carte 4 : les trois couvertures telles que fournies (aucune teinte, aucun reflet, aucun pli de reliure ni grain par-dessus), en livres 3D debout, légèrement tournés, avec une ombre de contact sur le fond os. Les livres sont dessinés en relié pour montrer un pack de trois tomes : dans le texte principal de la pub, précise bien « 3 ebooks (PDF) » pour qu'aucun acheteur n'attende un livre papier.
+- Carte 4 : les trois couvertures telles que fournies (aucune teinte, aucun reflet, aucun pli de reliure ni grain par-dessus), en livres 3D debout, légèrement tournés, avec une ombre de contact sur le fond os. Les livres sont dessinés en relié pour montrer un pack de trois tomes : dans le texte principal de la pub, précise bien qu'il s'agit d'ebooks numériques (« 3 digital ebooks ») pour qu'aucun acheteur n'attende un livre papier.
 - Carte 5 : les 12 premiers mots de l'avis 5 étoiles d'Ilian, sans coupure ni changement (« These e-books were just the push I needed to reevaluate my approach and stop trying to move forward blindly. I've made great progress ever since!! »). Seule la casse change. La couverture d'Intensity apparaît derrière à 8 %, coupée par le bord droit et assez grande pour que ses inscriptions sortent de la carte : on n'y voit que le « 01 » et l'image. Ni étoiles ni photo de profil. La carte fait 16 mots (12 + 4), comme le prévoit ton brief : c'est la seule à dépasser 15.
 - Avant de diffuser la carte 5 : vérifie dans tes commandes qu'Ilian a bien acheté Intensity ou le pack (son avis dit « these e-books » au pluriel), garde une capture datée de son avis, et demande-lui son accord écrit pour utiliser son prénom et ses mots dans une pub. Sans cette vérification, « reader of Intensity » ne peut pas être affirmé.
 - Carte 6 : les trois couvertures telles que fournies, en éventail, le tome 2 plus grand et devant les deux autres.
@@ -126,7 +126,7 @@ Texte principal :
 ```
 You show up every session. But can you say how hard, how much, or when?
 
-Static Strength is 3 ebooks (PDF) for planche and front lever: Intensity (how hard), Volume (how much), Periodization (when).
+Static Strength is 3 digital ebooks for planche and front lever: Intensity (how hard), Volume (how much), Periodization (when).
 
 The 3-book pack: 59.99$. Instant download, private Discord included.
 ```
@@ -140,7 +140,7 @@ Titres et descriptions des cartes (titre de 40 caractères au plus) :
 | 3 | Same work. Different clarity. | Train hard. Know why. |
 | 4 | How hard. How much. When. | 3 ebooks, one method |
 | 5 | What readers say | A reader's words |
-| 6 | The 3-book pack: 59.99$ | Instant download (PDF) |
+| 6 | The 3-book pack: 59.99$ | Instant digital download |
 
 - Lien : `https://maximecalisthenics.com/?utm_source=meta&utm_medium=paid_social&utm_campaign=static_strength_pack&utm_content=carousel_c`, sur toutes les cartes. Le bouton noir de la carte 6 n'est pas cliquable en soi : c'est le lien de la carte qui l'est.
 - Bouton d'action : Shop Now. Désactive « Afficher automatiquement les cartes les plus performantes en premier » : les cartes 4 et 6 répondent aux cartes 2 et 3.
