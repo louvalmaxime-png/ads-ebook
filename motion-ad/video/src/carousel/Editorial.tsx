@@ -170,26 +170,42 @@ const PencilQ: React.FC<{x: number; y: number; rot: number; seed: number}> = ({x
   </svg>
 );
 
-const FRAME = {x: 360, y: 438, w: S - 360, h: 522};
+// The photo takes the right two-thirds under the headline and bleeds off the right
+// and bottom edges; the wordmark and swipe arrow sit on its light lower margin.
+const FRAME = {x: 360, y: 470, w: S - 360, h: S - 470};
+const TONE = {grayscale: 0.92, tint: false};
 const Hook: React.FC<P> = (p) => {
-  const marks = PHOTO_A?.marks ?? PREVIEW_MARKS;
+  const ph = PHOTO_A;
+  const at = (x: number, y: number) =>
+    ph ? [FRAME.x + (x - ph.origin[0]) * ph.scale, FRAME.y + (y - ph.origin[1]) * ph.scale] : [FRAME.x + x * FRAME.w, FRAME.y + y * FRAME.h];
+  const marks = ph?.marks ?? PREVIEW_MARKS;
   return (
     <Card {...p} swipe>
       <div style={{position: 'absolute', left: FRAME.x, top: FRAME.y, width: FRAME.w, height: FRAME.h, overflow: 'hidden', background: E.block}}>
-        {PHOTO_A ? (
+        {ph ? (
           <Img
-            src={staticFile(PHOTO_A.src)}
-            style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: PHOTO_A.focus, filter: 'grayscale(0.92) contrast(1.05)'}}
+            src={staticFile(ph.src)}
+            style={{
+              position: 'absolute',
+              left: -ph.origin[0] * ph.scale,
+              top: -ph.origin[1] * ph.scale,
+              width: ph.size[0] * ph.scale,
+              height: ph.size[1] * ph.scale,
+              maxWidth: 'none',
+              filter: `grayscale(${TONE.grayscale}) contrast(1.05)`,
+            }}
           />
         ) : (
           <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', ...small(22, E.muted, 600), letterSpacing: '0.16em'}}>
             PHOTO A
           </div>
         )}
+        {TONE.tint && <div style={{position: 'absolute', inset: 0, background: E.bg, mixBlendMode: 'multiply'}} />}
       </div>
-      {marks.map(([fx, fy, rot], i) => (
-        <PencilQ key={i} x={FRAME.x + fx * FRAME.w} y={FRAME.y + fy * FRAME.h} rot={rot} seed={i + 2} />
-      ))}
+      {marks.map(([x, y, rot], i) => {
+        const [cx, cy] = at(x, y);
+        return <PencilQ key={i} x={cx} y={cy} rot={rot} seed={i + 2} />;
+      })}
       <div style={{position: 'absolute', left: M - 5, top: 112, display: 'flex', flexDirection: 'column', gap: 14}}>
         <div style={head(118)}>DISCIPLINED…</div>
         <div style={head(118)}>
