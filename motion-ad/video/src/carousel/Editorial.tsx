@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, Img, staticFile} from 'remotion';
 import {Book3D, Pose} from '../ui/Book3D';
-import {BODY, HEAD, SERIF} from '../theme';
+import {BODY, HAND, HEAD, SERIF} from '../theme';
 import {PHOTO_A, PREVIEW_MARKS} from './photos';
 
 // Deck C: the "sports-science editorial" art direction.
@@ -102,35 +102,6 @@ const Kicker: React.FC<{top: number; text: string}> = ({top, text}) => (
     <div style={{...small(22, E.ink, 600), letterSpacing: '0.2em', marginTop: 14}}>{text}</div>
   </div>
 );
-
-// Staircase in true proportions (see Cards.tsx), black outline, no fill flood.
-const TRUE = [0.209, 0.362, 0.842, 1];
-const Stairs: React.FC<{x: number; base: number; w: number; h: number; labels?: string[][]}> = ({x, base, w, h, labels}) => {
-  const col = w / 4;
-  const hs = TRUE.map((k) => k * h);
-  return (
-    <>
-      <svg width={S} height={S} style={{position: 'absolute', left: 0, top: 0}}>
-        {hs.map((hi, i) => (
-          <rect key={i} x={x + col * i} y={base - hi} width={col + (i < 3 ? 1 : 0)} height={hi} fill={E.block} />
-        ))}
-        <g stroke={E.ink} strokeWidth={3} fill="none">
-          <line x1={x + 2 * col - 14} y1={base - hs[1]} x2={x + 2 * col - 14} y2={base - hs[2]} />
-          <line x1={x + 2 * col - 14} y1={base - hs[1]} x2={x + 2 * col - 2} y2={base - hs[1]} />
-          <line x1={x + 2 * col - 14} y1={base - hs[2]} x2={x + 2 * col - 2} y2={base - hs[2]} />
-        </g>
-        <line x1={x} y1={base} x2={x + w} y2={base} stroke={E.ink} strokeWidth={2} />
-      </svg>
-      {labels?.map((lines, i) => (
-        <div key={i} style={{position: 'absolute', left: x + col * i + 18, top: base - hs[i] + 18, ...small(22, E.ink, 600), letterSpacing: '0.08em'}}>
-          {lines.map((l) => (
-            <div key={l}>{l}</div>
-          ))}
-        </div>
-      ))}
-    </>
-  );
-};
 
 const covers = 'saturate(0.86) drop-shadow(0 18px 20px rgba(10,10,10,0.26))';
 const TRIO = (cy: number, h: number, cx: [number, number, number], ry: number): Array<{src: string; pose: Pose}> => [
@@ -284,23 +255,235 @@ const Hook: React.FC<P> = (p) => {
   );
 };
 
-// 2 — The four steps (13 words)
-const Steps: React.FC<P> = (p) => (
-  <Card {...p}>
-    <div style={{position: 'absolute', left: M - 5, top: 120}}>
-      <div style={head(120)}>FOUR STEPS THAT</div>
-      <div style={head(120)}>LOOK EQUAL.</div>
-      <div style={head(120)}>
-        THEY <Mark>AREN’T.</Mark>
+// 2 — The mirror (15 words): the reader's own training log, shot from above on
+// concrete. Every session written down, none of it measured.
+
+// Seeded so every render scatters the concrete pores the same way.
+const rand = (seed: number) => () => {
+  seed = (seed * 16807) % 2147483647;
+  return seed / 2147483647;
+};
+
+// Concrete slab in daylight: large mottling, mid-scale trowel texture, fine aggregate
+// and a few pores, lit from the top left. Built in SVG so it renders the same every time.
+const Concrete: React.FC<{w: number; h: number}> = ({w, h}) => {
+  const r = rand(42);
+  const pores = Array.from({length: 110}, () => ({x: r() * w, y: r() * h, r: 0.6 + r() * r() * 2.2, o: 0.2 + r() * 0.3}));
+  const gray = '0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 0 1';
+  return (
+    <svg width={w} height={h} style={{position: 'absolute', left: 0, top: 0}}>
+      <defs>
+        <filter id="concrete" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+          <feFlood floodColor="#A09D97" result="base" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.0035" numOctaves={4} seed={9} result="t1" />
+          <feColorMatrix in="t1" type="matrix" values={gray} result="g1" />
+          <feComponentTransfer in="g1" result="m1">
+            <feFuncR type="linear" slope={1.1} intercept={-0.05} />
+            <feFuncG type="linear" slope={1.1} intercept={-0.05} />
+            <feFuncB type="linear" slope={1.1} intercept={-0.05} />
+          </feComponentTransfer>
+          <feBlend in="m1" in2="base" mode="soft-light" result="b1" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves={3} seed={4} result="t2" />
+          <feColorMatrix in="t2" type="matrix" values={gray} result="g2" />
+          <feComponentTransfer in="g2" result="m2">
+            <feFuncR type="linear" slope={0.7} intercept={0.15} />
+            <feFuncG type="linear" slope={0.7} intercept={0.15} />
+            <feFuncB type="linear" slope={0.7} intercept={0.15} />
+          </feComponentTransfer>
+          <feBlend in="m2" in2="b1" mode="soft-light" result="b2a" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.32" numOctaves={2} seed={13} result="t4" />
+          <feColorMatrix in="t4" type="matrix" values={gray} result="m4" />
+          <feBlend in="m4" in2="b2a" mode="soft-light" result="b2" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves={2} seed={21} result="t3" />
+          <feColorMatrix in="t3" type="matrix" values={gray} result="g3" />
+          <feComponentTransfer in="g3" result="m3">
+            <feFuncR type="discrete" tableValues="0.22 0.42 0.5 0.5 0.5 0.58 0.7" />
+            <feFuncG type="discrete" tableValues="0.22 0.42 0.5 0.5 0.5 0.58 0.7" />
+            <feFuncB type="discrete" tableValues="0.22 0.42 0.5 0.5 0.5 0.58 0.7" />
+          </feComponentTransfer>
+          <feBlend in="m3" in2="b2" mode="overlay" />
+        </filter>
+        <radialGradient id="daylight" cx="0.18" cy="0.05" r="1.15">
+          <stop offset="0" stopColor="#fff" stopOpacity={0.16} />
+          <stop offset="0.55" stopColor="#fff" stopOpacity={0} />
+          <stop offset="1" stopColor="#000" stopOpacity={0.16} />
+        </radialGradient>
+      </defs>
+      <rect width={w} height={h} filter="url(#concrete)" />
+      <g>
+        {pores.map((p, i) => (
+          <g key={i}>
+            <circle cx={p.x + 0.5} cy={p.y + 0.6} r={p.r} fill="#fff" opacity={p.o * 0.35} />
+            <circle cx={p.x} cy={p.y} r={p.r} fill="#3E3B37" opacity={p.o} />
+          </g>
+        ))}
+      </g>
+      <rect width={w} height={h} fill="url(#daylight)" />
+    </svg>
+  );
+};
+
+// A pen correction: one stroke through the word, or a quick zigzag scribble.
+const Strike: React.FC<{kind: 'line' | 'scribble'; children: React.ReactNode}> = ({kind, children}) => (
+  <span style={{position: 'relative', display: 'inline-block'}}>
+    {children}
+    <svg
+      viewBox="0 0 100 20"
+      preserveAspectRatio="none"
+      style={{position: 'absolute', left: '-6%', width: '112%', top: '0.28em', height: '0.5em', overflow: 'visible'}}
+    >
+      <path
+        d={kind === 'line' ? 'M0 13 C 30 11.5, 62 9.5, 100 7.5' : 'M0 12 L 7 3 L 12 17 L 20 3 L 26 17 L 34 3 L 40 17 L 48 3 L 54 17 L 62 3 L 68 17 L 76 3 L 82 17 L 90 4 L 96 15 L 100 6'}
+        stroke={INK}
+        strokeWidth={kind === 'line' ? 2.4 : 1.8}
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  </span>
+);
+
+// One line of the log: what was written, optionally crossed out and rewritten after.
+type Entry = {text: string; struck?: 'line' | 'scribble'; then?: string};
+const LOG: Entry[][] = [
+  [
+    {text: 'hard'},
+    {text: 'very hard'},
+    {text: 'hard', struck: 'line', then: 'very hard'},
+    {text: 'felt hard again'},
+    {text: 'hard'},
+    {text: 'very hard', struck: 'scribble', then: 'hard'},
+    {text: 'felt hard again'},
+    {text: 'hard', struck: 'line', then: 'felt hard again'},
+    {text: 'very hard'},
+  ],
+  [
+    {text: 'hard'},
+    {text: 'hard', struck: 'line', then: 'very hard'},
+    {text: 'felt hard again'},
+    {text: 'very hard'},
+    {text: 'felt hard again', struck: 'scribble', then: 'hard'},
+    {text: 'hard'},
+    {text: 'felt hard again'},
+  ],
+];
+const INK = '#20242C';
+
+const NB = {w: 704, h: 436, cover: 8, rule0: 56, pitch: 37.8};
+const Page: React.FC<{side: 0 | 1}> = ({side}) => {
+  const pw = NB.w / 2 - NB.cover;
+  const ph = NB.h - 2 * NB.cover;
+  const toGutter = side === 0 ? 'to right' : 'to left';
+  const r = rand(7 + side * 13);
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: side === 0 ? NB.cover : NB.w / 2,
+        top: NB.cover,
+        width: pw,
+        height: ph,
+        overflow: 'hidden',
+        background: `linear-gradient(${toGutter}, rgba(70,60,50,0.07) 0%, rgba(0,0,0,0) 9%, rgba(255,255,255,0.18) 40%, rgba(0,0,0,0) 74%, rgba(70,58,46,0.12) 90%, rgba(48,38,28,0.34) 100%), #F2EEE6`,
+      }}
+    >
+      <div style={{position: 'absolute', inset: 0, backgroundImage: GRAIN, opacity: 0.18, mixBlendMode: 'overlay'}} />
+      <svg width={pw} height={ph} style={{position: 'absolute', left: 0, top: 0}}>
+        {Array.from({length: 10}, (_, i) => (
+          <line key={i} x1={0} x2={pw} y1={NB.rule0 + i * NB.pitch} y2={NB.rule0 + i * NB.pitch} stroke="#8C8A86" strokeOpacity={0.32} strokeWidth={1} />
+        ))}
+      </svg>
+      <div style={{position: 'absolute', inset: 0, filter: 'url(#ink)'}}>
+        {LOG[side].map((e, i) => {
+          const size = 29 + r() * 3;
+          return (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                left: (side === 0 ? 28 : 22) + r() * 12 + i * 0.7,
+                top: NB.rule0 + i * NB.pitch - size * 0.98,
+                transform: `rotate(${-1.6 + r() * 2.2}deg)`,
+                transformOrigin: '0 100%',
+                fontFamily: HAND,
+                fontSize: size,
+                lineHeight: 1,
+                color: INK,
+                opacity: 0.86 + r() * 0.1,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {e.struck ? <Strike kind={e.struck}>{e.text}</Strike> : e.text}
+              {e.then && <span style={{marginLeft: 14}}>{e.then}</span>}
+            </div>
+          );
+        })}
       </div>
     </div>
-    <Stairs
-      x={M}
-      base={930}
-      w={INNER}
-      h={430}
-      labels={[['TUCK'], ['ADVANCED', 'TUCK'], ['STRADDLE', 'PLANCHE'], ['FULL', 'PLANCHE']]}
-    />
+  );
+};
+
+// Open hardcover notebook seen from straight above: black boards around bone pages,
+// a page block on each outer edge, the gutter falling into shadow, and a soft
+// daylight shadow on the slab, cast down and to the right.
+const Notebook: React.FC<{cx: number; cy: number; rot: number}> = ({cx, cy, rot}) => (
+  <div
+    style={{
+      position: 'absolute',
+      left: cx - NB.w / 2,
+      top: cy - NB.h / 2,
+      width: NB.w,
+      height: NB.h,
+      transform: `rotate(${rot}deg)`,
+      borderRadius: 7,
+      background: '#1B1B1C',
+      boxShadow: '2px 3px 4px rgba(20,18,16,0.45), 16px 22px 34px rgba(20,18,16,0.38), 34px 44px 70px rgba(20,18,16,0.22)',
+    }}
+  >
+    <svg width={0} height={0} style={{position: 'absolute'}}>
+      <filter id="ink" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves={2} seed={5} result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale={1.4} result="d" />
+        <feGaussianBlur in="d" stdDeviation={0.25} />
+      </filter>
+    </svg>
+    {[0, 1].map((side) => (
+      <div
+        key={side}
+        style={{
+          position: 'absolute',
+          top: NB.cover - 2,
+          bottom: NB.cover - 2,
+          width: 5,
+          [side === 0 ? 'left' : 'right']: NB.cover - 4,
+          background: 'repeating-linear-gradient(to right, #D9D3C8 0 1px, #F1ECE3 1px 2px)',
+          borderRadius: 2,
+        }}
+      />
+    ))}
+    <Page side={0} />
+    <Page side={1} />
+    <div style={{position: 'absolute', left: NB.w / 2 - 1, top: NB.cover, width: 2, height: NB.h - 2 * NB.cover, background: 'rgba(30,24,18,0.35)'}} />
+  </div>
+);
+
+const BAND = {y: 380, h: 512};
+const Mirror: React.FC<P> = (p) => (
+  <Card {...p}>
+    <div style={{position: 'absolute', left: M - 5, top: 119, display: 'flex', flexDirection: 'column', gap: 14}}>
+      <div style={head(124)}>YOU SHOW UP.</div>
+      <div style={head(124)}>EVERY SESSION.</div>
+    </div>
+    <div style={{position: 'absolute', left: 0, top: BAND.y, width: S, height: BAND.h, overflow: 'hidden'}}>
+      <Concrete w={S} h={BAND.h} />
+      <Notebook cx={546} cy={BAND.h / 2 - 2} rot={-2.6} />
+    </div>
+    <div style={{position: 'absolute', left: M, top: BAND.y + BAND.h + 26, ...small(34, E.muted, 500)}}>
+      But you can’t say <b style={{color: E.ink, fontWeight: 700}}>how hard</b>, <b style={{color: E.ink, fontWeight: 700}}>how much</b>, or{' '}
+      <b style={{color: E.ink, fontWeight: 700}}>when</b>.
+    </div>
   </Card>
 );
 
@@ -427,4 +610,4 @@ const Offer: React.FC<P> = (p) => (
   </Card>
 );
 
-export const DECK_C: React.FC<P>[] = [Hook, Steps, Cause, System, Proof, Offer];
+export const DECK_C: React.FC<P>[] = [Hook, Mirror, Cause, System, Proof, Offer];
