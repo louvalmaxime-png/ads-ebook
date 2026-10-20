@@ -743,26 +743,37 @@ const Questions: React.FC<P> = (p) => {
   );
 };
 
-// 5 — Proof (13 words; a verbatim excerpt of Ilian's 5-star review)
-const STAR = 'M12 2.5 L14.9 8.6 L21.5 9.4 L16.6 13.9 L17.9 20.5 L12 17.3 L6.1 20.5 L7.4 13.9 L2.5 9.4 L9.1 8.6 Z';
-const Proof: React.FC<P> = (p) => (
+// 5 — Buyer voice (12 + 4 words): the first 12 words of Ilian's 5-star review, exactly
+// as written and unbroken, under oversized acid quotation marks; the Intensity cover
+// ghosts in at 8% behind it, cropped by the right edge. No stars, no avatar.
+const QUOTE = ['THESE E-BOOKS WERE', 'JUST THE PUSH I', 'NEEDED TO REEVALUATE', 'MY APPROACH'];
+const Voice: React.FC<P> = (p) => (
   <Card {...p}>
-    <Kicker top={120} text="READER REVIEW" />
-    <div style={{position: 'absolute', left: M, top: 270, display: 'flex', gap: 8}}>
-      {[0, 1, 2, 3, 4].map((i) => (
-        <svg key={i} width={40} height={40} viewBox="0 0 24 24">
-          <path d={STAR} fill={E.ink} />
-        </svg>
+    <Img
+      src={staticFile('covers/intensity.webp')}
+      style={{
+        position: 'absolute',
+        left: 600,
+        top: 170,
+        height: 1240,
+        width: (1240 * 2) / 3,
+        opacity: 0.08,
+        // cut by the right and bottom edges; the two edges inside the card fade out
+        WebkitMaskImage: 'linear-gradient(to right, transparent, #000 26%), linear-gradient(to bottom, transparent, #000 20%)',
+        WebkitMaskComposite: 'source-in',
+        maskComposite: 'intersect',
+      }}
+    />
+    <div style={{position: 'absolute', left: M - 8, top: 118, fontFamily: SERIF, fontWeight: 700, fontSize: 340, lineHeight: 1, color: E.acid}}>“</div>
+    <div style={{position: 'absolute', left: 0, width: S, top: 300, textAlign: 'center'}}>
+      {QUOTE.map((l) => (
+        <div key={l} style={{...head(116), textAlign: 'center'}}>
+          {l}
+        </div>
       ))}
     </div>
-    <div style={{position: 'absolute', left: M - 5, top: 370}}>
-      <div style={head(124)}>“JUST THE PUSH I NEEDED</div>
-      <div style={head(124)}>TO STOP TRYING TO MOVE</div>
-      <div style={head(124)}>
-        FORWARD <Mark>BLINDLY.</Mark>”
-      </div>
-    </div>
-    <div style={{position: 'absolute', left: M, top: 780, ...small(28, E.muted, 600), letterSpacing: '0.1em'}}>— ILIAN</div>
+    <div style={{position: 'absolute', right: M - 8, top: 560, fontFamily: SERIF, fontWeight: 700, fontSize: 340, lineHeight: 1, color: E.acid}}>”</div>
+    <div style={{position: 'absolute', left: 0, width: S, top: 760, textAlign: 'center', ...small(30, E.muted, 600)}}>— Ilian, reader of Intensity</div>
   </Card>
 );
 
@@ -801,4 +812,4 @@ const Offer: React.FC<P> = (p) => (
   </Card>
 );
 
-export const DECK_C: React.FC<P>[] = [Hook, Mirror, Switch, Questions, Proof, Offer];
+export const DECK_C: React.FC<P>[] = [Hook, Mirror, Switch, Questions, Voice, Offer];
