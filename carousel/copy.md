@@ -90,19 +90,19 @@ Bouton d'action : **Shop Now**.
 
 `C/01.png` à `C/06.png` : la même histoire en 6 cartes 1080×1080, avec la nouvelle direction artistique.
 
-- Fond os `#F2EEE6`, texte noir `#0A0A0A`, un seul accent jaune acide `#EAFF00` par carte : un surlignage sous un mot, ou le coup de pinceau de la carte 1. En texte sur fond clair, ce jaune serait illisible.
+- Fond os `#F2EEE6`, texte noir `#0A0A0A`, un seul accent jaune acide `#EAFF00` par carte, et seulement là où ton brief le demande : le coup de pinceau sous WITHOUT (carte 1), la languette noire de SMART (carte 3) et de FINALLY (carte 6), les guillemets (carte 5). Les cartes 2 et 4 n'en ont pas. Jamais de jaune en texte sur le fond clair : il y serait illisible.
 - Titres en Bebas Neue, en capitales et à l'approche serrée ; petits textes en Inter. Grain argentique fin sur toute la carte, réglé pour que le fond reste à `#F2EEE6` en moyenne.
 - Compteur en haut à droite (« 1/6 »), wordmark en bas à gauche : MAXIME en noir, CALISTHENICS en jaune sur une languette noire, tous deux en Noto Serif Bold, le caractère de ton logo. Pas de flèche de défilement : le brief exclut toute fausse interface.
 - 15 mots au plus par carte, wordmark et compteur non compris (16 sur la carte 5, selon son brief).
 
-| Carte | Texte | Mot surligné |
+| Carte | Texte | Accent jaune |
 |---|---|---|
 | 1 | DISCIPLINED… / BUT TRAINING WITHOUT UNDERSTANDING? + ta photo au front lever, annotée au crayon | WITHOUT (coup de pinceau) |
 | 2 | YOU SHOW UP. EVERY SESSION. / But you can’t say **how hard**, **how much**, or **when**. + carnet d'entraînement ouvert sur du béton | aucun (le brief n'en demande pas) |
 | 3 | DUMB & DISCIPLINED / ~~train hard. hope.~~ · SMART & DISCIPLINED / train hard. know why. + ta planche, deux fois | SMART (languette noire) |
 | 4 | EVERY SESSION STOPS BEING A GUESS. + HOW HARD? / HOW MUCH? / WHEN? au-dessus des 3 tomes | aucun (le brief n'en demande pas) |
 | 5 | « THESE E-BOOKS WERE JUST THE PUSH I NEEDED TO REEVALUATE MY APPROACH » / — Ilian, reader of Intensity | les guillemets |
-| 6 | UNDERSTAND YOUR TRAINING. FINALLY. / THE 3-BOOK PACK — 59.99$ (150$ barré) / ✓ Instant download ✓ Private Discord included / bouton maximecalisthenics.com | FINALLY. (languette noire) |
+| 6 | UNDERSTAND YOUR TRAINING. FINALLY. / THE 3-BOOK PACK — 59.99$ / ✓ Instant download ✓ Private Discord included / bouton maximecalisthenics.com | FINALLY. (languette noire) |
 
 Photos : seules tes images apparaissent, sans aucune retouche de l'athlète.
 
@@ -112,9 +112,39 @@ Photos : seules tes images apparaissent, sans aucune retouche de l'athlète.
 - Carte 4 : les trois couvertures telles que fournies (aucune teinte, aucun reflet, aucun pli de reliure ni grain par-dessus), en livres 3D debout, légèrement tournés, avec une ombre de contact sur le fond os. Les livres sont dessinés en relié pour montrer un pack de trois tomes : dans le texte principal de la pub, précise bien « 3 ebooks (PDF) » pour qu'aucun acheteur n'attende un livre papier.
 - Carte 5 : les 12 premiers mots de l'avis 5 étoiles d'Ilian, sans coupure ni changement (« These e-books were just the push I needed to reevaluate my approach and stop trying to move forward blindly. I've made great progress ever since!! »). Seule la casse change. La couverture d'Intensity apparaît derrière à 8 %, coupée par le bord droit et assez grande pour que ses inscriptions sortent de la carte : on n'y voit que le « 01 » et l'image. Ni étoiles ni photo de profil. La carte fait 16 mots (12 + 4), comme le prévoit ton brief : c'est la seule à dépasser 15.
 - Avant de diffuser la carte 5 : vérifie dans tes commandes qu'Ilian a bien acheté Intensity ou le pack (son avis dit « these e-books » au pluriel), garde une capture datée de son avis, et demande-lui son accord écrit pour utiliser son prénom et ses mots dans une pub. Sans cette vérification, « reader of Intensity » ne peut pas être affirmé.
-- Carte 6 : les trois couvertures telles que fournies, en éventail, le tome 2 un peu en avant.
-- Prix de la série C : 59.99$ le pack, 150$ barré comme valeur de référence. Les textes principaux A et B plus haut annoncent encore 44,99 $ (99,99 $ séparément) : aligne le texte de la pub sur le prix réel avant de diffuser. En France, un prix barré doit correspondre à un prix réellement pratiqué (le plus bas des 30 jours précédant la réduction) ou, s'il s'agit de la somme des tomes vendus séparément, à cette somme exacte.
+- Carte 6 : les trois couvertures telles que fournies, en éventail, le tome 2 plus grand et devant les deux autres.
+- Prix de la carte 6 : 59.99$ le pack. La valeur de 150$ de ton brief n'est pas sur la carte tant que sa base n'est pas confirmée. Un prix barré se lit comme un ancien prix : il doit correspondre au prix le plus bas pratiqué dans les 30 jours avant la réduction. Sinon, il faut l'afficher comme « 150$ vendus séparément », et seulement si c'est la somme exacte des trois tomes vendus aujourd'hui. Les textes A et B plus haut annoncent encore 44,99 $ (99,99 $ séparément), ce qui contredit les deux lectures. Ne diffuse pas A ou B en même temps que C sans les mettre au même prix.
+- Il manque la troisième ligne de réassurance de ton brief (seules deux sont données). L'ancienne pub annonçait une garantie satisfait ou remboursé de 14 jours. Si elle existe toujours, c'est la candidate naturelle, mais la carte passe alors à 17 mots.
 - La photo de la carte 1 ne fait que 600×700 px : elle est agrandie de 22 %. Une version en plus haute définition donnerait un rendu plus net.
+
+### Textes de la pub (série C)
+
+Ces textes ne reprennent que ce qui est sur les cartes et dans ce document. Les points marqués « à confirmer » restent en suspens tant que tu ne les as pas validés.
+
+Texte principal :
+
+```
+You show up every session. But can you say how hard, how much, or when?
+
+Static Strength is 3 ebooks (PDF) for planche and front lever: Intensity (how hard), Volume (how much), Periodization (when).
+
+The 3-book pack: 59.99$. Instant download, private Discord included.
+```
+
+Titres et descriptions des cartes (titre de 40 caractères au plus) :
+
+| Carte | Titre | Description |
+|---|---|---|
+| 1 | Disciplined, but training blind? | Planche & front lever |
+| 2 | Can you say how hard? | Your training log, honestly |
+| 3 | Same work. Different clarity. | Train hard. Know why. |
+| 4 | How hard. How much. When. | 3 ebooks, one method |
+| 5 | What readers say | A reader's words |
+| 6 | The 3-book pack: 59.99$ | Instant download (PDF) |
+
+- Lien : `https://maximecalisthenics.com/?utm_source=meta&utm_medium=paid_social&utm_campaign=static_strength_pack&utm_content=carousel_c`, sur toutes les cartes. Le bouton noir de la carte 6 n'est pas cliquable en soi : c'est le lien de la carte qui l'est.
+- Bouton d'action : Shop Now. Désactive « Afficher automatiquement les cartes les plus performantes en premier » : les cartes 4 et 6 répondent aux cartes 2 et 3.
+- À confirmer avant diffusion : le prix (59.99$, taxes comprises, dans la devise payée par ton audience), l'accord d'Ilian et ce qu'il a acheté (carte 5), et l'accord du spectateur qui filme (carte 3).
 
 Régénérer cette série seule : `DECKS=C node scripts/carousel.mjs` (depuis `motion-ad/video`). Le code est dans `motion-ad/video/src/carousel/Editorial.tsx`.
 

@@ -40,15 +40,6 @@ const small = (size = 28, color = E.ink, weight = 500): React.CSSProperties => (
   whiteSpace: 'nowrap',
 });
 
-// The single accent: a yellow marker stripe sitting behind the lower half of a word.
-// Acid yellow on bone has no contrast as type, so it is only ever used as a mark.
-const Mark: React.FC<{children: React.ReactNode}> = ({children}) => (
-  <span style={{position: 'relative', display: 'inline-block'}}>
-    <span style={{position: 'absolute', left: -6, right: -6, bottom: '0.02em', height: '0.36em', background: E.acid}} />
-    <span style={{position: 'relative'}}>{children}</span>
-  </span>
-);
-
 // Film grain over the whole card, so type, books, photo and ground share one print
 // texture. Mid-grey noise in overlay mode lightens as much as it darkens, so the page
 // still averages #F2EEE6.
@@ -563,7 +554,7 @@ const Notebook: React.FC<{cx: number; cy: number; rot: number}> = ({cx, cy, rot}
   </div>
 );
 
-const BAND = {y: 376, h: 492};
+const BAND = {y: 376, h: 478}; // same band as card 3's split photo
 const Mirror: React.FC<P> = (p) => (
   <Card
     {...p}
@@ -746,7 +737,7 @@ const Questions: React.FC<P> = (p) => {
 // 5 — Buyer voice (12 + 4 words, the brief's own template): the first 12 words of
 // Ilian's 5-star review, exactly as written and unbroken, set in phrases between
 // oversized acid quotation marks anchored to the type. The Intensity cover ghosts in at
-// 8% behind, a plain rectangle cut by the right edge, its lettering kept off the card.
+// 8% behind, cut by the right edge, its inner edge faded, its lettering kept off the card.
 // No stars, no avatar.
 const QUOTE = ['THESE E-BOOKS WERE', 'JUST THE PUSH I NEEDED', 'TO REEVALUATE', 'MY APPROACH'];
 const QV = {top: 340, size: 124, line: 124 * 0.88}; // quote block
@@ -756,7 +747,18 @@ const Voice: React.FC<P> = (p) => (
   <Card {...p}>
     {/* large enough that the series line runs off the top and the title off the bottom:
         only the outlined 01 and the image show, cut by the right edge */}
-    <Img src={staticFile('covers/intensity.webp')} style={{position: 'absolute', left: 560, top: -105, height: 1700, width: (1700 * 2) / 3, opacity: 0.08}} />
+    <Img
+      src={staticFile('covers/intensity.webp')}
+      style={{
+        position: 'absolute',
+        left: 560,
+        top: -105,
+        height: 1700,
+        width: (1700 * 2) / 3,
+        opacity: 0.08,
+        WebkitMaskImage: 'linear-gradient(to right, transparent, #000 220px)', // no hard panel edge
+      }}
+    />
     {/* opening mark on the left margin, its tail tucked behind the first letters */}
     <div
       style={{
@@ -800,16 +802,18 @@ const Voice: React.FC<P> = (p) => (
   </Card>
 );
 
-// 6 — Offer (15 words): the three books fanned in an arc with #2 a step forward, the
-// headline's FINALLY on the series' black tab, the price, two reassurances and the site.
+// 6 — Offer (14 words): the three books fanned in an arc, #2 in front overlapping the
+// other two, the headline's FINALLY on the series' black tab, the price as the hero,
+// two reassurances and the site. The 150$ reference value is left out until its basis
+// is confirmed (a struck price must be a real former price or the exact separate total).
 const FAN = [
-  {src: 'covers/intensity.webp', cx: 356, cy: 532, h: 250, ry: 16, rz: -8},
-  {src: 'covers/periodization.webp', cx: 724, cy: 532, h: 250, ry: -16, rz: 8},
-  {src: 'covers/volume.webp', cx: 540, cy: 518, h: 278, ry: 0, rz: 0}, // drawn last: in front
+  {src: 'covers/intensity.webp', cx: 368, cy: 530, h: 244, ry: 16, rz: -8},
+  {src: 'covers/periodization.webp', cx: 712, cy: 530, h: 244, ry: -16, rz: 8},
+  {src: 'covers/volume.webp', cx: 540, cy: 516, h: 270, ry: 0, rz: 0}, // drawn last: in front
 ];
 const CHECK = (
-  <svg width={26} height={26} viewBox="0 0 24 24" style={{display: 'block', flexShrink: 0}}>
-    <path d="M4 12.5 L9.5 18 L20 6.5" stroke={E.ink} strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+  <svg width={30} height={30} viewBox="0 0 24 24" style={{display: 'block', flexShrink: 0}}>
+    <path d="M4 12.5 L9.5 18 L20 6.5" stroke={E.ink} strokeWidth={2.6} fill="none" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 const Offer: React.FC<P> = (p) => (
@@ -824,23 +828,23 @@ const Offer: React.FC<P> = (p) => (
         sheen={false}
         hinge={false}
         paper={['#D2CABD', '#B5AD9F']}
-        filter="drop-shadow(0 14px 16px rgba(20,16,12,0.28))"
+        filter="drop-shadow(0 12px 12px rgba(20,16,12,0.24))"
       />
     ))}
   >
     <div style={{position: 'absolute', left: M - 5, top: 119}}>
       <div style={head(124)}>UNDERSTAND YOUR</div>
       <div style={{...head(124), marginTop: 14}}>
-        TRAINING. <Tab>FINALLY.</Tab>
+        TRAINING. <span style={{marginLeft: '0.08em'}}><Tab>FINALLY.</Tab></span>
       </div>
     </div>
-    <div style={{position: 'absolute', left: 0, width: S, top: 690, display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: 22}}>
-      <span style={head(84)}>THE 3-BOOK PACK — 59.99$</span>
-      <span style={{...small(30, E.muted, 600), textDecoration: 'line-through', textDecorationThickness: 2, textDecorationColor: E.ink}}>150$</span>
+    <div style={{position: 'absolute', left: 0, width: S, top: 690, display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: 18}}>
+      <span style={head(64)}>THE 3-BOOK PACK —</span>
+      <span style={head(110)}>59.99$</span>
     </div>
-    <div style={{position: 'absolute', left: 0, width: S, top: 786, display: 'flex', justifyContent: 'center', gap: 40}}>
+    <div style={{position: 'absolute', left: 0, width: S, top: 800, display: 'flex', justifyContent: 'center', gap: 40}}>
       {['Instant download', 'Private Discord included'].map((t) => (
-        <div key={t} style={{display: 'flex', alignItems: 'center', gap: 10, ...small(28, E.ink, 500)}}>
+        <div key={t} style={{display: 'flex', alignItems: 'center', gap: 10, ...small(32, E.ink, 500)}}>
           {CHECK}
           {t}
         </div>
@@ -850,10 +854,10 @@ const Offer: React.FC<P> = (p) => (
       style={{
         position: 'absolute',
         left: (S - 470) / 2,
-        top: 846,
+        top: 860,
         width: 470,
-        height: 72,
-        borderRadius: 36,
+        height: 70,
+        borderRadius: 35,
         background: E.ink,
         display: 'flex',
         alignItems: 'center',
