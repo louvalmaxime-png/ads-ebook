@@ -587,7 +587,7 @@ const Mirror: React.FC<P> = (p) => (
 
 // 3 — The switch (11 words): the same athlete and the same hold, twice. Left, seen
 // without understanding: grey, soft. Right, seen with it: colour, sharp.
-const SPLIT = {y: 372, h: 580};
+const SPLIT = {y: 376, h: 478}; // top aligned with card 2's band
 const Half: React.FC<{side: 0 | 1}> = ({side}) => {
   const ph = PHOTO_B;
   return (
@@ -601,19 +601,20 @@ const Half: React.FC<{side: 0 | 1}> = ({side}) => {
           width: ph.size[0] * ph.scale,
           height: ph.size[1] * ph.scale,
           maxWidth: 'none',
-          filter: side === 0 ? 'grayscale(1) contrast(0.92) brightness(1.04) blur(2.4px)' : 'contrast(1.03)',
+          filter: side === 0 ? 'grayscale(1) contrast(0.92) brightness(1.04) blur(2.4px)' : undefined,
         }}
       />
+      {side === 0 && <div style={{position: 'absolute', inset: 0, background: E.bg, mixBlendMode: 'multiply'}} />}
       <div style={{position: 'absolute', inset: 0, backgroundImage: GRAIN, opacity: 0.1, mixBlendMode: 'overlay'}} />
     </div>
   );
 };
 
-const LABEL = 84;
+const LABEL = 96;
 // A black tab hugging the caps of a Bebas word (caps sit 0.032-0.742em in its 0.88em
 // line box), the same device as the wordmark's CALISTHENICS tab.
 const Tab: React.FC<{children: React.ReactNode}> = ({children}) => (
-  <span style={{position: 'relative', display: 'inline-block', isolation: 'isolate', color: E.acid}}>
+  <span style={{position: 'relative', display: 'inline-block', isolation: 'isolate', color: E.acid, marginRight: '0.09em'}}>
     <span style={{position: 'absolute', zIndex: -1, left: '-0.09em', right: '-0.09em', top: '-0.058em', bottom: '0.048em', background: E.ink}} />
     {children}
   </span>
@@ -625,23 +626,24 @@ const Switch: React.FC<P> = (p) => (
       <>
         <Half side={0} />
         <Half side={1} />
-        <div style={{position: 'absolute', left: S / 2 - 1, top: 0, width: 2, height: S, background: E.ink}} />
+        {/* stops at the band: the footer is the series strip, not part of either side */}
+        <div style={{position: 'absolute', left: S / 2 - 1, top: 0, width: 2, height: SPLIT.y + SPLIT.h, background: E.ink}} />
       </>
     }
   >
     <div style={{position: 'absolute', left: M - 4, top: 119}}>
       <div style={head(LABEL)}>DUMB &amp;</div>
       <div style={head(LABEL)}>DISCIPLINED</div>
-      <div style={{...small(32, E.ink, 600), marginTop: 22, textDecoration: 'line-through', textDecorationThickness: 3, textDecorationColor: E.ink}}>
+      <div style={{...small(34, E.muted, 600), marginTop: 16, textDecoration: 'line-through', textDecorationThickness: 3, textDecorationColor: E.ink}}>
         train hard. hope.
       </div>
     </div>
-    <div style={{position: 'absolute', left: S / 2 + 44, top: 119}}>
+    <div style={{position: 'absolute', left: S / 2 + M - 4, top: 119}}>
       <div style={head(LABEL)}>
         <Tab>SMART</Tab> &amp;
       </div>
       <div style={head(LABEL)}>DISCIPLINED</div>
-      <div style={{...small(32, E.ink, 600), marginTop: 22}}>train hard. know why.</div>
+      <div style={{...small(34, E.ink, 600), marginTop: 16}}>train hard. know why.</div>
     </div>
   </Card>
 );

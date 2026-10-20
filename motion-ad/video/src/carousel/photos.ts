@@ -30,13 +30,15 @@ export const PHOTO_A: Photo | null = {
 };
 
 // Photo B: planche on parallettes in the park (DSC05664), effort on the face. Used on
-// both halves of card 3 with the same crop. The -nologo file has the OFFICIAL print on
-// the shorts painted out (apparel only); the original sits next to it.
+// both halves of card 3 with the same crop: the whole line from head to the frame edge,
+// both hands and parallettes, bystanders cut below the face. The -nologo file has the
+// prints painted out (shorts, a waistband, a cap, a wristband, a parallette base);
+// apparel and equipment only, the athlete is untouched. The original sits next to it.
 export const PHOTO_B: Photo = {
   src: 'photos/planche-park-nologo.webp',
   size: [1080, 1616],
-  origin: [60, 540],
-  scale: 540 / 840,
+  origin: [20, 676],
+  scale: 540 / 1060,
   marks: [],
 };
 
