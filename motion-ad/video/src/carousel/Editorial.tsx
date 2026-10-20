@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Img, staticFile} from 'remotion';
 import {Book3D, Pose} from '../ui/Book3D';
 import {BODY, HAND, HEAD, SERIF} from '../theme';
-import {PHOTO_A, PREVIEW_MARKS} from './photos';
+import {PHOTO_A, PHOTO_B, PREVIEW_MARKS} from './photos';
 
 // Deck C: the "sports-science editorial" art direction.
 // Bone ground, black type, one acid-yellow mark per card (never a flood),
@@ -585,43 +585,64 @@ const Mirror: React.FC<P> = (p) => (
   </Card>
 );
 
-// 3 — The cause (12 words)
-const Ruler: React.FC<{top: number; marker: number}> = ({top, marker}) => {
-  const seg = INNER / 10;
-  const base = top + 56;
-  const ticks: React.ReactNode[] = [];
-  for (let k = 0; k <= 10; k++) {
-    ticks.push(<line key={`M${k}`} x1={M + seg * k} y1={top} x2={M + seg * k} y2={base} strokeWidth={2.5} />);
-    if (k < 10) {
-      for (let j = 1; j <= 4; j++) {
-        const tx = M + seg * (k + j / 5);
-        ticks.push(<line key={`m${k}${j}`} x1={tx} y1={top + 28} x2={tx} y2={base} strokeWidth={1.5} />);
-      }
-    }
-  }
-  const mx = M + INNER * marker;
+// 3 — The switch (11 words): the same athlete and the same hold, twice. Left, seen
+// without understanding: grey, soft. Right, seen with it: colour, sharp.
+const SPLIT = {y: 372, h: 580};
+const Half: React.FC<{side: 0 | 1}> = ({side}) => {
+  const ph = PHOTO_B;
   return (
-    <svg width={S} height={S} style={{position: 'absolute', left: 0, top: 0}}>
-      <g stroke={E.ink}>
-        {ticks}
-        <line x1={M} y1={base} x2={M + INNER} y2={base} strokeWidth={2.5} />
-      </g>
-      <text x={mx} y={top - 26} textAnchor="middle" fontFamily={HEAD} fontSize={64} fill={E.ink}>
-        ?
-      </text>
-    </svg>
+    <div style={{position: 'absolute', left: side * (S / 2), top: SPLIT.y, width: S / 2, height: SPLIT.h, overflow: 'hidden'}}>
+      <Img
+        src={staticFile(ph.src)}
+        style={{
+          position: 'absolute',
+          left: -ph.origin[0] * ph.scale,
+          top: -ph.origin[1] * ph.scale,
+          width: ph.size[0] * ph.scale,
+          height: ph.size[1] * ph.scale,
+          maxWidth: 'none',
+          filter: side === 0 ? 'grayscale(1) contrast(0.92) brightness(1.04) blur(2.4px)' : 'contrast(1.03)',
+        }}
+      />
+      <div style={{position: 'absolute', inset: 0, backgroundImage: GRAIN, opacity: 0.1, mixBlendMode: 'overlay'}} />
+    </div>
   );
 };
-const Cause: React.FC<P> = (p) => (
-  <Card {...p}>
-    <div style={{position: 'absolute', left: M - 5, top: 120}}>
-      <div style={head(168)}>“IT WAS HARD”</div>
-      <div style={head(168)}>
-        IS NOT A <Mark>NUMBER.</Mark>
+
+const LABEL = 84;
+// A black tab hugging the caps of a Bebas word (caps sit 0.032-0.742em in its 0.88em
+// line box), the same device as the wordmark's CALISTHENICS tab.
+const Tab: React.FC<{children: React.ReactNode}> = ({children}) => (
+  <span style={{position: 'relative', display: 'inline-block', isolation: 'isolate', color: E.acid}}>
+    <span style={{position: 'absolute', zIndex: -1, left: '-0.09em', right: '-0.09em', top: '-0.058em', bottom: '0.048em', background: E.ink}} />
+    {children}
+  </span>
+);
+const Switch: React.FC<P> = (p) => (
+  <Card
+    {...p}
+    front={
+      <>
+        <Half side={0} />
+        <Half side={1} />
+        <div style={{position: 'absolute', left: S / 2 - 1, top: 0, width: 2, height: S, background: E.ink}} />
+      </>
+    }
+  >
+    <div style={{position: 'absolute', left: M - 4, top: 119}}>
+      <div style={head(LABEL)}>DUMB &amp;</div>
+      <div style={head(LABEL)}>DISCIPLINED</div>
+      <div style={{...small(32, E.ink, 600), marginTop: 22, textDecoration: 'line-through', textDecorationThickness: 3, textDecorationColor: E.ink}}>
+        train hard. hope.
       </div>
     </div>
-    <Ruler top={660} marker={0.62} />
-    <div style={{position: 'absolute', left: M, top: 790, ...small(34)}}>So when do you move up?</div>
+    <div style={{position: 'absolute', left: S / 2 + 44, top: 119}}>
+      <div style={head(LABEL)}>
+        <Tab>SMART</Tab> &amp;
+      </div>
+      <div style={head(LABEL)}>DISCIPLINED</div>
+      <div style={{...small(32, E.ink, 600), marginTop: 22}}>train hard. know why.</div>
+    </div>
   </Card>
 );
 
@@ -708,4 +729,4 @@ const Offer: React.FC<P> = (p) => (
   </Card>
 );
 
-export const DECK_C: React.FC<P>[] = [Hook, Mirror, Cause, System, Proof, Offer];
+export const DECK_C: React.FC<P>[] = [Hook, Mirror, Switch, System, Proof, Offer];

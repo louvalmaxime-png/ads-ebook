@@ -29,6 +29,17 @@ export const PHOTO_A: Photo | null = {
   ],
 };
 
+// Photo B: planche on parallettes in the park (DSC05664), effort on the face. Used on
+// both halves of card 3 with the same crop. The -nologo file has the OFFICIAL print on
+// the shorts painted out (apparel only); the original sits next to it.
+export const PHOTO_B: Photo = {
+  src: 'photos/planche-park-nologo.webp',
+  size: [1080, 1616],
+  origin: [60, 540],
+  scale: 540 / 840,
+  marks: [],
+};
+
 // Frame-relative mark positions used when no photo is set, so the layout can be judged.
 export const PREVIEW_MARKS: Array<[number, number, number]> = [
   [0.3, 0.16, -10],
