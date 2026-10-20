@@ -652,35 +652,38 @@ const Switch: React.FC<P> = (p) => (
 );
 
 // 4 — Three questions, three answers (11 words): the three books standing on the bone
-// ground, each under the question it answers. Cover artwork untouched: no tint, no
-// sheen, no grain over it.
+// ground, each under the question it answers. Cover artwork untouched: no tint, sheen,
+// crease or grain over it.
 const SHELF = {
-  base: 880, // where the books stand
-  h: 420,
+  base: 884, // where the books stand
+  h: 418,
+  rx: -4, // camera a touch above the books: a sliver of each top page block shows
+  persp: 3.5,
   books: [
-    {src: 'covers/intensity.webp', cx: 236, ry: 16, q: 'HOW HARD?'},
+    {src: 'covers/intensity.webp', cx: 223, ry: 22, q: 'HOW HARD?'},
     {src: 'covers/volume.webp', cx: 540, ry: 0, q: 'HOW MUCH?'},
-    {src: 'covers/periodization.webp', cx: 844, ry: -16, q: 'WHEN?'},
+    {src: 'covers/periodization.webp', cx: 860, ry: -22, q: 'WHEN?'},
   ],
 };
-// Soft contact shadow where a book meets the ground: a wide ambient pool and a tight
-// dark line under the base, tilted with the base's slight perspective slant.
+// Contact shadow where a book meets the ground: a wide ambient pool, and a dark line the
+// full width of the base so the corners sit down too.
 const Contact: React.FC<{cx: number; w: number; tilt: number}> = ({cx, w, tilt}) => (
-  <div style={{position: 'absolute', left: cx - w * 0.66, top: SHELF.base - 22, width: w * 1.32, height: 44, transform: `rotate(${tilt}deg)`}}>
-    <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(closest-side, rgba(28,22,16,0.34), rgba(28,22,16,0.13) 55%, rgba(28,22,16,0) 100%)'}} />
+  <div style={{position: 'absolute', left: cx - w * 0.68, top: SHELF.base - 26, width: w * 1.36, height: 52, transform: `rotate(${tilt}deg)`}}>
+    <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(closest-side, rgba(28,22,16,0.30), rgba(28,22,16,0.12) 60%, rgba(28,22,16,0) 100%)'}} />
     <div
       style={{
         position: 'absolute',
-        left: w * 0.12,
-        right: w * 0.12,
-        top: 20,
-        height: 8,
-        background: 'radial-gradient(closest-side, rgba(12,10,8,0.7), rgba(12,10,8,0) 100%)',
-        filter: 'blur(1px)',
+        left: w * 0.18 - 3,
+        width: w + 6,
+        top: 24,
+        height: 5,
+        background: 'linear-gradient(to right, rgba(12,10,8,0), rgba(12,10,8,0.6) 4%, rgba(12,10,8,0.6) 96%, rgba(12,10,8,0))',
+        filter: 'blur(1.5px)',
       }}
     />
   </div>
 );
+const Q_TRACK = 0.12;
 const Questions: React.FC<P> = (p) => {
   const w = (SHELF.h * 2) / 3;
   return (
@@ -688,8 +691,15 @@ const Questions: React.FC<P> = (p) => {
       {...p}
       front={SHELF.books.map((b) => (
         <React.Fragment key={b.src}>
-          <Contact cx={b.cx} w={w * Math.cos((b.ry * Math.PI) / 180) + 14} tilt={-b.ry * 0.12} />
-          <Book3D src={b.src} pose={{cx: b.cx, cy: SHELF.base - SHELF.h / 2, h: SHELF.h, rx: 0, ry: b.ry, rz: 0}} sheen={false} />
+          <Contact cx={b.cx} w={w * Math.cos((b.ry * Math.PI) / 180) + 10} tilt={-b.ry * 0.09} />
+          <Book3D
+            src={b.src}
+            pose={{cx: b.cx, cy: SHELF.base - SHELF.h / 2, h: SHELF.h, rx: SHELF.rx, ry: b.ry, rz: 0}}
+            persp={SHELF.persp}
+            sheen={false}
+            hinge={false}
+            paper={['#E6E0D5', '#CDC6B9']}
+          />
         </React.Fragment>
       ))}
     >
@@ -700,7 +710,16 @@ const Questions: React.FC<P> = (p) => {
       {SHELF.books.map((b) => (
         <div
           key={b.q}
-          style={{position: 'absolute', left: b.cx - 150, width: 300, top: SHELF.base - SHELF.h - 58, textAlign: 'center', ...small(26, E.ink, 600), letterSpacing: '0.18em'}}
+          style={{
+            position: 'absolute',
+            left: b.cx - 160,
+            width: 320,
+            top: SHELF.base - SHELF.h - 72,
+            textAlign: 'center',
+            ...small(34, E.ink, 700),
+            letterSpacing: `${Q_TRACK}em`,
+            paddingLeft: `${Q_TRACK}em`, // balance the trailing tracking so it centres on the book
+          }}
         >
           {b.q}
         </div>
