@@ -800,37 +800,68 @@ const Voice: React.FC<P> = (p) => (
   </Card>
 );
 
-// 6 — Offer (11 words)
+// 6 — Offer (15 words): the three books fanned in an arc with #2 a step forward, the
+// headline's FINALLY on the series' black tab, the price, two reassurances and the site.
+const FAN = [
+  {src: 'covers/intensity.webp', cx: 356, cy: 532, h: 250, ry: 16, rz: -8},
+  {src: 'covers/periodization.webp', cx: 724, cy: 532, h: 250, ry: -16, rz: 8},
+  {src: 'covers/volume.webp', cx: 540, cy: 518, h: 278, ry: 0, rz: 0}, // drawn last: in front
+];
+const CHECK = (
+  <svg width={26} height={26} viewBox="0 0 24 24" style={{display: 'block', flexShrink: 0}}>
+    <path d="M4 12.5 L9.5 18 L20 6.5" stroke={E.ink} strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 const Offer: React.FC<P> = (p) => (
   <Card
     {...p}
-    front={TRIO(310, 330, [330, 540, 750], 16).map((b) => (
-      <Book3D key={b.src} src={b.src} pose={b.pose} filter={covers} />
+    front={FAN.map((b) => (
+      <Book3D
+        key={b.src}
+        src={b.src}
+        pose={{cx: b.cx, cy: b.cy, h: b.h, rx: 0, ry: b.ry, rz: b.rz}}
+        persp={4}
+        sheen={false}
+        hinge={false}
+        paper={['#D2CABD', '#B5AD9F']}
+        filter="drop-shadow(0 14px 16px rgba(20,16,12,0.28))"
+      />
     ))}
   >
-    <div style={{position: 'absolute', left: 0, width: S, top: 512, textAlign: 'center', ...small(28, E.muted)}}>
-      <span style={{textDecoration: 'line-through', textDecorationThickness: 2}}>$99.99</span> separately
+    <div style={{position: 'absolute', left: M - 5, top: 119}}>
+      <div style={head(124)}>UNDERSTAND YOUR</div>
+      <div style={{...head(124), marginTop: 14}}>
+        TRAINING. <Tab>FINALLY.</Tab>
+      </div>
     </div>
-    <div style={{position: 'absolute', left: 0, width: S, top: 562, textAlign: 'center', ...head(150)}}>
-      ALL THREE <Mark>$44.99</Mark>
+    <div style={{position: 'absolute', left: 0, width: S, top: 690, display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: 22}}>
+      <span style={head(84)}>THE 3-BOOK PACK — 59.99$</span>
+      <span style={{...small(30, E.muted, 600), textDecoration: 'line-through', textDecorationThickness: 2, textDecorationColor: E.ink}}>150$</span>
     </div>
-    <div style={{position: 'absolute', left: 0, width: S, top: 718, textAlign: 'center', ...small(28, E.ink, 500)}}>
-      14-day money-back guarantee
+    <div style={{position: 'absolute', left: 0, width: S, top: 786, display: 'flex', justifyContent: 'center', gap: 40}}>
+      {['Instant download', 'Private Discord included'].map((t) => (
+        <div key={t} style={{display: 'flex', alignItems: 'center', gap: 10, ...small(28, E.ink, 500)}}>
+          {CHECK}
+          {t}
+        </div>
+      ))}
     </div>
     <div
       style={{
         position: 'absolute',
-        left: (S - 440) / 2,
-        top: 808,
-        width: 440,
-        height: 96,
+        left: (S - 470) / 2,
+        top: 846,
+        width: 470,
+        height: 72,
+        borderRadius: 36,
         background: E.ink,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        ...small(30, '#FFFFFF', 600),
       }}
     >
-      <span style={{...head(60), color: E.bg, lineHeight: 1, letterSpacing: '0.04em', transform: 'translateY(3px)'}}>GET THE PACK</span>
+      maximecalisthenics.com
     </div>
   </Card>
 );

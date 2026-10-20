@@ -17,7 +17,7 @@ Format : images carrées 1080×1080, placements Fil Facebook et Instagram. Pour 
 | 3 | | « It was hard » + la règle | La cause : aucun chiffre pour savoir quand monter |
 | 4 | 3 | An instrument, not a guess | La solution : l'échelle de 1 à 10 |
 | 5 | 4 | How hard. How much. When. | Les 3 tomes et ce que chacun apporte |
-| 6 | 5 | What readers say | Deux avis 5 étoiles, mot pour mot |
+| 6 | UNDERSTAND YOUR TRAINING. FINALLY. / THE 3-BOOK PACK — 59.99$ (150$ barré) / ✓ Instant download ✓ Private Discord included / bouton maximecalisthenics.com | FINALLY. (languette noire) |
 | 7 | 6 | L'offre | Prix, contenu, garantie, bouton |
 
 ## Texte principal
@@ -112,7 +112,8 @@ Photos : seules tes images apparaissent, sans aucune retouche de l'athlète.
 - Carte 4 : les trois couvertures telles que fournies (aucune teinte, aucun reflet, aucun pli de reliure ni grain par-dessus), en livres 3D debout, légèrement tournés, avec une ombre de contact sur le fond os. Les livres sont dessinés en relié pour montrer un pack de trois tomes : dans le texte principal de la pub, précise bien « 3 ebooks (PDF) » pour qu'aucun acheteur n'attende un livre papier.
 - Carte 5 : les 12 premiers mots de l'avis 5 étoiles d'Ilian, sans coupure ni changement (« These e-books were just the push I needed to reevaluate my approach and stop trying to move forward blindly. I've made great progress ever since!! »). Seule la casse change. La couverture d'Intensity apparaît derrière à 8 %, coupée par le bord droit et assez grande pour que ses inscriptions sortent de la carte : on n'y voit que le « 01 » et l'image. Ni étoiles ni photo de profil. La carte fait 16 mots (12 + 4), comme le prévoit ton brief : c'est la seule à dépasser 15.
 - Avant de diffuser la carte 5 : vérifie dans tes commandes qu'Ilian a bien acheté Intensity ou le pack (son avis dit « these e-books » au pluriel), garde une capture datée de son avis, et demande-lui son accord écrit pour utiliser son prénom et ses mots dans une pub. Sans cette vérification, « reader of Intensity » ne peut pas être affirmé.
-- Carte 6 : les couvertures, en livres 3D, légèrement désaturées.
+- Carte 6 : les trois couvertures telles que fournies, en éventail, le tome 2 un peu en avant.
+- Prix de la série C : 59.99$ le pack, 150$ barré comme valeur de référence. Les textes principaux A et B plus haut annoncent encore 44,99 $ (99,99 $ séparément) : aligne le texte de la pub sur le prix réel avant de diffuser. En France, un prix barré doit correspondre à un prix réellement pratiqué (le plus bas des 30 jours précédant la réduction) ou, s'il s'agit de la somme des tomes vendus séparément, à cette somme exacte.
 - La photo de la carte 1 ne fait que 600×700 px : elle est agrandie de 22 %. Une version en plus haute définition donnerait un rendu plus net.
 
 Régénérer cette série seule : `DECKS=C node scripts/carousel.mjs` (depuis `motion-ad/video`). Le code est dans `motion-ad/video/src/carousel/Editorial.tsx`.
