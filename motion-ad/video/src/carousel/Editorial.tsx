@@ -743,37 +743,60 @@ const Questions: React.FC<P> = (p) => {
   );
 };
 
-// 5 — Buyer voice (12 + 4 words): the first 12 words of Ilian's 5-star review, exactly
-// as written and unbroken, under oversized acid quotation marks; the Intensity cover
-// ghosts in at 8% behind it, cropped by the right edge. No stars, no avatar.
-const QUOTE = ['THESE E-BOOKS WERE', 'JUST THE PUSH I', 'NEEDED TO REEVALUATE', 'MY APPROACH'];
+// 5 — Buyer voice (12 + 4 words, the brief's own template): the first 12 words of
+// Ilian's 5-star review, exactly as written and unbroken, set in phrases between
+// oversized acid quotation marks anchored to the type. The Intensity cover ghosts in at
+// 8% behind, a plain rectangle cut by the right edge, its lettering kept off the card.
+// No stars, no avatar.
+const QUOTE = ['THESE E-BOOKS WERE', 'JUST THE PUSH I NEEDED', 'TO REEVALUATE', 'MY APPROACH'];
+const QV = {top: 340, size: 124, line: 124 * 0.88}; // quote block
+const QMARK = 460; // Noto Serif quote glyphs: ink starts 0.17em down, side bearing 0.056em
+const qCapTop = (i: number) => QV.top + i * QV.line + QV.size * 0.032;
 const Voice: React.FC<P> = (p) => (
   <Card {...p}>
-    <Img
-      src={staticFile('covers/intensity.webp')}
+    {/* large enough that the series line runs off the top and the title off the bottom:
+        only the outlined 01 and the image show, cut by the right edge */}
+    <Img src={staticFile('covers/intensity.webp')} style={{position: 'absolute', left: 560, top: -105, height: 1700, width: (1700 * 2) / 3, opacity: 0.08}} />
+    {/* opening mark on the left margin, its tail tucked behind the first letters */}
+    <div
       style={{
         position: 'absolute',
-        left: 600,
-        top: 170,
-        height: 1240,
-        width: (1240 * 2) / 3,
-        opacity: 0.08,
-        // cut by the right and bottom edges; the two edges inside the card fade out
-        WebkitMaskImage: 'linear-gradient(to right, transparent, #000 26%), linear-gradient(to bottom, transparent, #000 20%)',
-        WebkitMaskComposite: 'source-in',
-        maskComposite: 'intersect',
+        left: M - QMARK * 0.056,
+        top: qCapTop(0) + 24 - QMARK * 0.302 - QMARK * 0.17,
+        fontFamily: SERIF,
+        fontWeight: 700,
+        fontSize: QMARK,
+        lineHeight: 1,
+        color: E.acid,
       }}
-    />
-    <div style={{position: 'absolute', left: M - 8, top: 118, fontFamily: SERIF, fontWeight: 700, fontSize: 340, lineHeight: 1, color: E.acid}}>“</div>
-    <div style={{position: 'absolute', left: 0, width: S, top: 300, textAlign: 'center'}}>
+    >
+      “
+    </div>
+    {/* closing mark set after the last word, cap-top aligned, ending on the right margin */}
+    <div
+      style={{
+        position: 'absolute',
+        right: S - (M + INNER) - QMARK * 0.06,
+        top: qCapTop(3) - QMARK * 0.17,
+        fontFamily: SERIF,
+        fontWeight: 700,
+        fontSize: QMARK,
+        lineHeight: 1,
+        color: E.acid,
+      }}
+    >
+      ”
+    </div>
+    <div style={{position: 'absolute', left: 0, width: S, top: QV.top, textAlign: 'center'}}>
       {QUOTE.map((l) => (
-        <div key={l} style={{...head(116), textAlign: 'center'}}>
+        <div key={l} style={{...head(QV.size), textAlign: 'center'}}>
           {l}
         </div>
       ))}
     </div>
-    <div style={{position: 'absolute', right: M - 8, top: 560, fontFamily: SERIF, fontWeight: 700, fontSize: 340, lineHeight: 1, color: E.acid}}>”</div>
-    <div style={{position: 'absolute', left: 0, width: S, top: 760, textAlign: 'center', ...small(30, E.muted, 600)}}>— Ilian, reader of Intensity</div>
+    <div style={{position: 'absolute', left: 0, width: S, top: qCapTop(3) + QMARK * 0.302 + 28, textAlign: 'center', ...small(28, E.muted, 600)}}>
+      — Ilian, reader of Intensity
+    </div>
   </Card>
 );
 
