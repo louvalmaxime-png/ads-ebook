@@ -112,31 +112,31 @@ const Brush: React.FC<{children: React.ReactNode}> = ({children}) => (
     <svg
       viewBox="0 0 400 30"
       preserveAspectRatio="none"
-      style={{position: 'absolute', left: '-2%', width: '105%', top: '0.76em', height: '0.24em', overflow: 'visible'}}
+      style={{position: 'absolute', left: '-2%', width: '105%', top: '0.78em', height: '0.24em', overflow: 'visible'}}
     >
       <defs>
         <filter id="brush-edge" x="-5%" y="-80%" width="110%" height="260%">
           <feTurbulence type="fractalNoise" baseFrequency="0.05 0.9" numOctaves={2} seed={7} />
           <feDisplacementMap in="SourceGraphic" scale={2.5} />
         </filter>
-        <mask id="brush-dry" maskUnits="userSpaceOnUse" x="-10" y="-10" width="440" height="50">
-          <rect x="-10" y="-10" width="440" height="50" fill="#fff" />
+        <mask id="brush-dry" maskUnits="userSpaceOnUse" x="-10" y="-10" width="460" height="50">
+          <rect x="-10" y="-10" width="460" height="50" fill="#fff" />
           <g stroke="#000" strokeLinecap="round" fill="none">
-            <path d="M352 6.4 C 372 6.2, 388 6.1, 402 6" strokeWidth={1.4} />
-            <path d="M346 10.6 C 366 10.4, 386 10.3, 402 10.2" strokeWidth={1.5} />
-            <path d="M360 14.6 C 376 14.5, 390 14.4, 402 14.4" strokeWidth={1.3} />
+            <path d="M396 6.4 C 408 6.3, 420 6.1, 432 6" strokeWidth={1.4} />
+            <path d="M392 10.6 C 405 10.4, 418 10.3, 432 10.2" strokeWidth={1.5} />
+            <path d="M400 14.6 C 410 14.5, 421 14.4, 432 14.4" strokeWidth={1.3} />
           </g>
         </mask>
       </defs>
       <g fill={E.acid} filter="url(#brush-edge)">
         <path
           mask="url(#brush-dry)"
-          d="M11 3.9 C 13 3.4, 16 3.3, 22 3.3 C 120 3.2, 260 2.95, 384 2.7 C 388 2.65, 392 3.1, 394 4.3 L 390.5 6.6 L 395.5 8.6 L 389.5 11 L 393 13.4 L 387 15.6 L 389.5 17.6 C 386 18, 384 18.2, 380 18.3 C 300 18.9, 200 19.8, 110 20.4 C 70 20.7, 40 21.6, 22 22.2 C 12 22.6, 6 21.8, 5.2 19.6 C 4.6 16.5, 7 8.5, 11 3.9 Z"
+          d="M11 3.9 C 13 3.4, 16 3.3, 22 3.3 C 120 3.2, 260 2.95, 398 2.7 C 402 2.65, 406 3.1, 408 4.3 L 404.5 6.6 L 409.5 8.6 L 403.5 11 L 407 13.4 L 401 15.6 L 403.5 17.6 C 400 18, 398 18.2, 394 18.3 C 300 18.9, 200 19.8, 110 20.4 C 70 20.7, 40 21.6, 22 22.2 C 12 22.6, 6 21.8, 5.2 19.6 C 4.6 16.5, 7 8.5, 11 3.9 Z"
         />
-        <path d="M380 3.0 C 392 2.9, 404 3.1, 414 3.6 C 404 4.2, 392 4.9, 380 5.2 Z" />
-        <path d="M384 7.6 C 394 7.7, 402 8.1, 409 8.7 C 401 9.1, 393 9.5, 384 9.7 Z" />
-        <path d="M382 12 C 390 12.2, 397 12.6, 403 13.1 C 396 13.5, 389 13.8, 382 13.9 Z" />
-        <path d="M378 15.8 C 385 16, 391 16.3, 396 16.7 C 390 17, 384 17.2, 378 17.3 Z" />
+        <path d="M394 3.0 C 406 2.9, 418 3.1, 428 3.6 C 418 4.2, 406 4.9, 394 5.2 Z" />
+        <path d="M398 7.6 C 406 7.7, 410 8.1, 414 8.7 C 410 9.1, 405 9.5, 398 9.7 Z" />
+        <path d="M396 12 C 405 12.2, 414 12.6, 423 13.1 C 414 13.5, 405 13.8, 396 13.9 Z" />
+        <path d="M392 15.8 C 398 16, 404 16.3, 408 16.7 C 403 17, 397 17.2, 392 17.3 Z" />
       </g>
     </svg>
   </span>

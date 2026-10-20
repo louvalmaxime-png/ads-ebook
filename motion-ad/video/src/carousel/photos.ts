@@ -24,8 +24,8 @@ export const PHOTO_A: Photo | null = {
   origin: [55, 82], // bar caps and shorts each ~22 px inside the frame, shelf out
   scale: 1.22,
   marks: [
-    [503, 404, 8], // right shoulder, on clean wall beside the deltoid
-    [382, 290, 4], // shoulder girdle, between the arms above the head
+    [509, 470, 8], // right shoulder, on clean wall level with the joint
+    [382, 300, 4], // shoulder girdle, between the arms just above the head
     [140, 455, -10], // hips, in the gap left of the glutes
   ],
 };

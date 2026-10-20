@@ -30,16 +30,19 @@ def harmonic(mask, known, iters=600):
 
 
 def grow(m, n):
+    if n <= 1:
+        return m
     return np.asarray(Image.fromarray((m * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(n))) > 0
 
 
-SKIN = (orig[..., 0] - orig[..., 2] > 25) & (lum > 90)  # warm, light: wrists and hands
+SKIN = (orig[..., 0] - orig[..., 2] > 12) & (lum > 60)  # warm: wrists, hands, and their anti-aliased edges
 
 
-def light_on_dark(box, thr, dark, g=5, neutral=False, nowall=False):
+def light_on_dark(box, thr, dark, g=5, neutral=False, nowall=False, clip=False):
     """Light print on a dark ground (socks, black end cap): refill from the dark ground.
     neutral: only grey pixels (prints), so a box that touches skin never takes it.
-    nowall: also leave anything as light as the wall (for marks on a band's edge)."""
+    nowall: also leave anything as light as the wall (for marks on a band's edge).
+    clip: keep the grown mask inside the box, so an outline next to it keeps its shape."""
     x0, y0, x1, y1 = box
     ALLOWED[y0 - g:y1 + g, x0 - g:x1 + g] = True
     m = np.zeros(lum.shape, bool)
@@ -51,6 +54,10 @@ def light_on_dark(box, thr, dark, g=5, neutral=False, nowall=False):
         m &= ~grow(SKIN, 3)
     if nowall:
         m &= lum < 190
+    if clip:
+        keep = np.zeros(lum.shape, bool)
+        keep[y0:y1, x0:x1] = True
+        m &= keep
     w = harmonic(m, (~m) & (lum < dark))
     w[m] += rng.normal(0, 2.5, (m.sum(), 1))
     out[m] = w[m]
@@ -98,9 +105,18 @@ n = {}
 n['socks'] = light_on_dark((250, 384, 284, 408), 48, 70, 5, True) + light_on_dark((158, 288, 175, 316), 48, 70, 5, True)
 n['wrist_left'] = band(205, 262, 200, 250, 212, 237)
 n['wrist_right'] = band(415, 466, 190, 236, 201, 224)
+# the stripe's ends run past the band's black rows: paint them without growing, so the
+# band keeps its outline; and the emblem's edge tick above the right band
+n['wrist_edges'] = (
+    light_on_dark((247, 216, 251, 232), 100, 45, 1, True)
+    + light_on_dark((455, 198, 459, 202), 90, 45, 1, True)
+    + light_on_dark((422, 210, 423, 214), 100, 45, 1, True)
+    + light_on_dark((423, 215, 424, 218), 100, 45, 1, True)
+)
 n['wrist_small'] = light_on_dark((213, 204, 224, 210), 60, 45, 3, True, True) + light_on_dark((452, 198, 460, 207), 90, 45, 3, True, True)
-n['cap_left'] = light_on_dark((125, 146, 134, 195), 80, 60, 3)
-n['cap_right'] = dark_on_light((526, 108, 538, 188), 12)
+n['cap_left'] = light_on_dark((125, 146, 134, 195), 80, 60, 3, clip=True)
+# the right end cap's faint grey print is left as photographed: it is illegible at card
+# size, and painting it out also lifted the cap's own shading and softened its edge
 # guard: no skin pixel may change (the athlete stays exactly as photographed)
 changed = np.abs(out - orig).max(axis=2) > 1
 assert not (changed & SKIN).any(), f'{int((changed & SKIN).sum())} skin pixels changed'
