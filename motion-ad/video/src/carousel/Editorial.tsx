@@ -298,7 +298,7 @@ const Concrete: React.FC<{w: number; h: number}> = ({w, h}) => {
           <feFlood floodColor="#ADA9A2" result="base" />
           <feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves={4} seed={9} result="t1" />
           <feColorMatrix in="t1" type="matrix" values={gray} result="g1" />
-          <feComponentTransfer in="g1" result="m1">{contrast(2.3)}</feComponentTransfer>
+          <feComponentTransfer in="g1" result="m1">{contrast(1.5)}</feComponentTransfer>
           <feBlend in="m1" in2="base" mode="soft-light" result="b1" />
           <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves={3} seed={4} result="t2" />
           <feColorMatrix in="t2" type="matrix" values={gray} result="g2" />
@@ -348,35 +348,33 @@ const LOG: Entry[][] = [
   ],
   [
     {text: 'very hard'},
+    {text: 'felt hard again'},
     {text: 'hard', struck: 'line', then: 'very hard'},
-    {text: 'felt hard again'},
-    {text: 'very hard', struck: 'scribble', then: 'hard'},
-    {text: 'felt hard again'},
+    {text: 'hard'},
+    {text: 'hard', struck: 'scribble', then: 'very hard'},
   ],
 ];
 const INK = '#20242C';
 const CHAR_W = 0.42; // Caveat's average advance, in em, to size strikes before layout
 
-// Handwriting from a font, broken up letter by letter so repeated words never match:
-// each glyph gets its own small lift, tilt and width.
+// Handwriting from a font: each word stays one text run so Caveat's contextual
+// alternates change repeated letters, and each word gets its own lift, tilt and
+// width, so the same phrase never comes out twice the same.
 const Hand: React.FC<{text: string; r: () => number}> = ({text, r}) => (
   <>
-    {[...text].map((ch, i) =>
-      ch === ' ' ? (
-        <span key={i}> </span>
-      ) : (
-        <span
-          key={i}
-          style={{
-            display: 'inline-block',
-            transform: `translateY(${(r() - 0.5) * 2.4}px) rotate(${(r() - 0.5) * 6}deg) scaleX(${0.95 + r() * 0.1})`,
-            marginRight: `${(r() - 0.5) * 0.04}em`,
-          }}
-        >
-          {ch}
-        </span>
-      ),
-    )}
+    {text.split(' ').map((word, i) => (
+      <span
+        key={i}
+        style={{
+          display: 'inline-block',
+          marginLeft: i === 0 ? 0 : `${0.3 + r() * 0.08}em`,
+          transform: `translateY(${(r() - 0.5) * 3}px) rotate(${(r() - 0.5) * 4}deg) scaleX(${0.94 + r() * 0.12})`,
+          letterSpacing: `${(r() - 0.5) * 0.04}em`,
+        }}
+      >
+        {word}
+      </span>
+    ))}
   </>
 );
 
@@ -396,15 +394,21 @@ const Strike: React.FC<{kind: 'line' | 'scribble'; text: string; size: number; r
     d = `M0 ${12 + j(4)} C 30 ${11 + j(3)}, 64 ${9 + j(3)}, 100 ${7.5 + j(4)}`;
     if (r() < 0.5) d += ` M4 ${14 + j(3)} C 40 ${12 + j(3)}, 70 ${11 + j(3)}, 97 ${9.5 + j(3)}`;
   } else {
-    const n = Math.max(6, Math.round(w / 8));
-    const pts: string[] = [`M0 ${10 + j(4)}`];
-    for (let k = 1; k <= n; k++) {
-      const x = (100 * k) / n + j(40 / n);
-      const up = k % 2 === 1;
-      pts.push(`L ${x.toFixed(1)} ${(up ? 2.5 + r() * 3 : 13.5 + r() * 4).toFixed(1)}`);
-    }
-    pts.push(`L 100 ${15 + j(3)}`);
-    d = pts.join(' ');
+    const pass = (y0: number, amp: number) => {
+      let x = 0;
+      let up = true;
+      let path = `M0 ${y0}`;
+      while (x < 100) {
+        const step = ((5 + r() * 6) / w) * 100; // 5-11 px per half-loop, whatever the word
+        const nx = Math.min(100, x + step);
+        const ny = up ? 10 - amp * (0.7 + r() * 0.6) : 10 + amp * (0.7 + r() * 0.6);
+        path += ` Q ${(x + step * 0.5).toFixed(1)} ${(ny + (up ? -1.5 : 1.5)).toFixed(1)} ${nx.toFixed(1)} ${ny.toFixed(1)}`;
+        x = nx;
+        up = !up;
+      }
+      return path;
+    };
+    d = `${pass(10 + j(3), 6)} ${pass(11 + j(3), 4.5)}`;
   }
   return (
     <span style={{position: 'relative', display: 'inline-block'}}>
@@ -414,7 +418,7 @@ const Strike: React.FC<{kind: 'line' | 'scribble'; text: string; size: number; r
         preserveAspectRatio="none"
         style={{position: 'absolute', left: '-2%', width: '104%', top: '0.32em', height: '0.5em', overflow: 'visible'}}
       >
-        <path d={d} stroke={INK} strokeWidth={kind === 'line' ? 2.3 : 1.9} fill="none" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+        <path d={d} stroke={INK} strokeWidth={kind === 'line' ? 2.4 : 2.6} fill="none" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
       </svg>
     </span>
   );
@@ -462,14 +466,14 @@ const Page: React.FC<{side: 0 | 1}> = ({side}) => {
         })}
       </svg>
       {LOG[side].map((e, i) => {
-        const size = 40 + r() * 3;
+        const size = 38 + r() * 6;
         return (
           <div
             key={i}
             style={{
               position: 'absolute',
-              left: (side === 0 ? 26 : 22) + r() * 12,
-              top: NB.rule0 + i * NB.pitch - size * 0.84 + (r() - 0.6) * 2.5,
+              left: (side === 0 ? 22 : 50) + r() * 14,
+              top: NB.rule0 + i * NB.pitch - size * 0.76 + (r() - 0.5) * 4,
               transform: `rotate(${-1.4 + r() * 2}deg) skewX(${-4 + r() * 6}deg)`,
               transformOrigin: '0 100%',
               fontFamily: HAND,
@@ -515,7 +519,7 @@ const Notebook: React.FC<{cx: number; cy: number; rot: number}> = ({cx, cy, rot}
       borderRadius: 7,
       background: '#1B1B1C',
       boxShadow:
-        'inset 1px 1px 0 rgba(255,255,255,0.10), 1px 2px 2px rgba(20,18,16,0.45), 8px 12px 18px rgba(20,18,16,0.32), 18px 26px 44px rgba(20,18,16,0.16)',
+        'inset 1.5px 1.5px 0 rgba(255,255,255,0.24), 1px 2px 2px rgba(20,18,16,0.45), 8px 12px 18px rgba(20,18,16,0.32), 18px 26px 44px rgba(20,18,16,0.16)',
     }}
   >
     <svg width={0} height={0} style={{position: 'absolute'}}>
@@ -536,12 +540,13 @@ const Notebook: React.FC<{cx: number; cy: number; rot: number}> = ({cx, cy, rot}
           top: NB.cover,
           bottom: NB.cover,
           width: 5,
-          [side === 0 ? 'left' : 'right']: NB.cover - 4,
+          [side === 0 ? 'left' : 'right']: NB.cover - 2,
           background: 'repeating-linear-gradient(to right, #D9D3C8 0 1px, #F1ECE3 1px 2px)',
           borderRadius: 2,
         }}
       />
     ))}
+    <div style={{position: 'absolute', left: NB.w / 2 - 3, top: NB.cover + 3, width: 6, height: NB.h - 2 * NB.cover - 6, background: '#CFC9BE'}} />
     <Page side={0} />
     <Page side={1} />
     <div
