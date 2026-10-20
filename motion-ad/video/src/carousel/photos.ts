@@ -16,11 +16,12 @@ export type Photo = {
 
 // Photo 2: front lever on the door bar, white interior.
 export const PHOTO_A: Photo | null = {
-  // The -nologo file is the original with the two sock swooshes painted out
-  // (apparel only; the athlete is untouched). The original sits next to it.
+  // The -nologo file has the prints painted out (sock swooshes, the lettered stripe on
+  // both wristbands, the bar end caps): apparel and equipment only, the athlete is
+  // untouched. The original sits next to it. Script: nologo_front_lever.py.
   src: 'photos/front-lever-door-bar-nologo.webp',
   size: [600, 700],
-  origin: [55, 76],
+  origin: [55, 82], // bar caps and shorts each ~22 px inside the frame, shelf out
   scale: 1.22,
   marks: [
     [503, 404, 8], // right shoulder, on clean wall beside the deltoid

@@ -103,8 +103,9 @@ const TRIO = (cy: number, h: number, cx: [number, number, number], ry: number): 
 
 // 1 — Hook (5 words): a strong athlete, annotated like a coaching sheet he can't read.
 
-// One loaded brush stroke under the word: blunt start, a slight rise to the right,
-// bristles breaking up into dry streaks before a feathered tail.
+// One loaded brush stroke under the word: a slanted, paint-heavy heel flush with the W,
+// a level body ~4 px under the baseline that keeps its weight to the last T, then the
+// bristles split into a few dry streaks just past it.
 const Brush: React.FC<{children: React.ReactNode}> = ({children}) => (
   <span style={{position: 'relative', display: 'inline-block'}}>
     {children}
@@ -116,26 +117,26 @@ const Brush: React.FC<{children: React.ReactNode}> = ({children}) => (
       <defs>
         <filter id="brush-edge" x="-5%" y="-80%" width="110%" height="260%">
           <feTurbulence type="fractalNoise" baseFrequency="0.05 0.9" numOctaves={2} seed={7} />
-          <feDisplacementMap in="SourceGraphic" scale={3.5} />
+          <feDisplacementMap in="SourceGraphic" scale={2.5} />
         </filter>
         <mask id="brush-dry" maskUnits="userSpaceOnUse" x="-10" y="-10" width="440" height="50">
           <rect x="-10" y="-10" width="440" height="50" fill="#fff" />
           <g stroke="#000" strokeLinecap="round" fill="none">
-            <path d="M262 13.5 C 310 11, 350 8, 402 5" strokeWidth={1.3} />
-            <path d="M300 9 C 340 6.5, 370 4.5, 402 3" strokeWidth={0.9} />
-            <path d="M236 18.5 C 290 16, 330 13, 380 10" strokeWidth={1.1} />
-            <path d="M318 12.5 C 350 10.5, 375 8.5, 402 7.5" strokeWidth={1.6} />
-            <path d="M282 6.5 C 320 4.5, 352 3, 380 2" strokeWidth={0.7} />
+            <path d="M352 6.4 C 372 6.2, 388 6.1, 402 6" strokeWidth={1.4} />
+            <path d="M346 10.6 C 366 10.4, 386 10.3, 402 10.2" strokeWidth={1.5} />
+            <path d="M360 14.6 C 376 14.5, 390 14.4, 402 14.4" strokeWidth={1.3} />
           </g>
         </mask>
       </defs>
       <g fill={E.acid} filter="url(#brush-edge)">
         <path
           mask="url(#brush-dry)"
-          d="M5 16 C 4 9, 11 5.5, 24 6 C 120 4.5, 240 2.5, 330 1 C 362 0.5, 386 1, 400 3 C 384 6.5, 352 9.5, 320 12 C 240 16.5, 120 22, 26 25 C 11 25.5, 5 22, 5 16 Z"
+          d="M11 3.9 C 13 3.4, 16 3.3, 22 3.3 C 120 3.2, 260 2.95, 384 2.7 C 388 2.65, 392 3.1, 394 4.3 L 390.5 6.6 L 395.5 8.6 L 389.5 11 L 393 13.4 L 387 15.6 L 389.5 17.6 C 386 18, 384 18.2, 380 18.3 C 300 18.9, 200 19.8, 110 20.4 C 70 20.7, 40 21.6, 22 22.2 C 12 22.6, 6 21.8, 5.2 19.6 C 4.6 16.5, 7 8.5, 11 3.9 Z"
         />
-        <path d="M352 7.5 C 372 6.5, 392 5, 412 4.2 L 412 5 C 392 6.2, 372 7.6, 352 8.6 Z" opacity={0.85} />
-        <path d="M340 3.2 C 365 2.4, 388 2, 408 1.8 L 408 2.4 C 388 2.7, 365 3.3, 340 4 Z" opacity={0.7} />
+        <path d="M380 3.0 C 392 2.9, 404 3.1, 414 3.6 C 404 4.2, 392 4.9, 380 5.2 Z" />
+        <path d="M384 7.6 C 394 7.7, 402 8.1, 409 8.7 C 401 9.1, 393 9.5, 384 9.7 Z" />
+        <path d="M382 12 C 390 12.2, 397 12.6, 403 13.1 C 396 13.5, 389 13.8, 382 13.9 Z" />
+        <path d="M378 15.8 C 385 16, 391 16.3, 396 16.7 C 390 17, 384 17.2, 378 17.3 Z" />
       </g>
     </svg>
   </span>
@@ -171,8 +172,8 @@ const PencilQ: React.FC<{x: number; y: number; rot: number; h: number; shape: nu
         <path d={q.dot} />
       </g>
       <g filter={`url(#${id})`} stroke={GRAPHITE} fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path d={q.stem} strokeWidth={3.6} opacity={0.9} />
-        <path d={q.ghost} strokeWidth={1.4} opacity={0.65} />
+        <path d={q.stem} strokeWidth={4.2} opacity={0.92} />
+        <path d={q.ghost} strokeWidth={1.6} opacity={0.7} />
         <path d={q.dot} strokeWidth={2.2} fill={GRAPHITE} opacity={0.9} />
       </g>
     </svg>
@@ -237,7 +238,7 @@ const Hook: React.FC<P> = (p) => {
     <Card {...p} front={photo}>
       <div style={{position: 'absolute', left: M - 5, top: 119, display: 'flex', flexDirection: 'column', gap: 14}}>
         <div style={head(124)}>DISCIPLINED…</div>
-        <div style={{...head(124), marginBottom: 10}}>
+        <div style={head(124)}>
           BUT TRAINING <Brush>WITHOUT</Brush>
         </div>
         <div style={head(124)}>UNDERSTANDING?</div>
