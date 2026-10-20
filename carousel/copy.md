@@ -17,7 +17,7 @@ Format : images carrées 1080×1080, placements Fil Facebook et Instagram. Pour 
 | 3 | | « It was hard » + la règle | La cause : aucun chiffre pour savoir quand monter |
 | 4 | 3 | An instrument, not a guess | La solution : l'échelle de 1 à 10 |
 | 5 | 4 | How hard. How much. When. | Les 3 tomes et ce que chacun apporte |
-| 6 | UNDERSTAND YOUR TRAINING. FINALLY. / THE 3-BOOK PACK — 59.99$ (150$ barré) / ✓ Instant download ✓ Private Discord included / bouton maximecalisthenics.com | FINALLY. (languette noire) |
+| 6 | 5 | What readers say | Deux avis 5 étoiles, mot pour mot |
 | 7 | 6 | L'offre | Prix, contenu, garantie, bouton |
 
 ## Texte principal
@@ -102,7 +102,7 @@ Bouton d'action : **Shop Now**.
 | 3 | DUMB & DISCIPLINED / ~~train hard. hope.~~ · SMART & DISCIPLINED / train hard. know why. + ta planche, deux fois | SMART (languette noire) |
 | 4 | EVERY SESSION STOPS BEING A GUESS. + HOW HARD? / HOW MUCH? / WHEN? au-dessus des 3 tomes | aucun (le brief n'en demande pas) |
 | 5 | « THESE E-BOOKS WERE JUST THE PUSH I NEEDED TO REEVALUATE MY APPROACH » / — Ilian, reader of Intensity | les guillemets |
-| 6 | $99.99 separately / ALL THREE $44.99 / 14-day money-back guarantee / GET THE PACK | $44.99 |
+| 6 | UNDERSTAND YOUR TRAINING. FINALLY. / THE 3-BOOK PACK — 59.99$ (150$ barré) / ✓ Instant download ✓ Private Discord included / bouton maximecalisthenics.com | FINALLY. (languette noire) |
 
 Photos : seules tes images apparaissent, sans aucune retouche de l'athlète.
 
