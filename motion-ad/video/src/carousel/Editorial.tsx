@@ -601,7 +601,10 @@ const Half: React.FC<{side: 0 | 1}> = ({side}) => {
           width: ph.size[0] * ph.scale,
           height: ph.size[1] * ph.scale,
           maxWidth: 'none',
-          filter: side === 0 ? 'grayscale(1) contrast(0.92) brightness(1.04) blur(2.4px)' : undefined,
+          // the soft side overhangs its half a little so the blur never feathers into the bone
+          filter: side === 0 ? 'grayscale(1) sepia(0.12) contrast(0.92) brightness(1.06) blur(2.4px)' : undefined,
+          transform: side === 0 ? 'scale(1.02)' : undefined,
+          transformOrigin: '0 0',
         }}
       />
       {side === 0 && <div style={{position: 'absolute', inset: 0, background: E.bg, mixBlendMode: 'multiply'}} />}
@@ -615,7 +618,7 @@ const LABEL = 96;
 // line box), the same device as the wordmark's CALISTHENICS tab.
 const Tab: React.FC<{children: React.ReactNode}> = ({children}) => (
   <span style={{position: 'relative', display: 'inline-block', isolation: 'isolate', color: E.acid, marginRight: '0.09em'}}>
-    <span style={{position: 'absolute', zIndex: -1, left: '-0.09em', right: '-0.09em', top: '-0.058em', bottom: '0.048em', background: E.ink}} />
+    <span style={{position: 'absolute', zIndex: -1, left: '-0.09em', right: '-0.09em', top: '-0.05em', bottom: '0.07em', background: E.ink}} />
     {children}
   </span>
 );
@@ -633,7 +636,7 @@ const Switch: React.FC<P> = (p) => (
   >
     <div style={{position: 'absolute', left: M - 4, top: 119}}>
       <div style={head(LABEL)}>DUMB &amp;</div>
-      <div style={head(LABEL)}>DISCIPLINED</div>
+      <div style={{...head(LABEL), marginTop: 4}}>DISCIPLINED</div>
       <div style={{...small(34, E.muted, 600), marginTop: 16, textDecoration: 'line-through', textDecorationThickness: 3, textDecorationColor: E.ink}}>
         train hard. hope.
       </div>
@@ -642,7 +645,7 @@ const Switch: React.FC<P> = (p) => (
       <div style={head(LABEL)}>
         <Tab>SMART</Tab> &amp;
       </div>
-      <div style={head(LABEL)}>DISCIPLINED</div>
+      <div style={{...head(LABEL), marginTop: 4}}>DISCIPLINED</div>
       <div style={{...small(34, E.ink, 600), marginTop: 16}}>train hard. know why.</div>
     </div>
   </Card>

@@ -33,8 +33,9 @@ def local(box, pad, mode, thr, grow, poly=None, noise=3.0):
     m=inside&(diff>thr)
     m=np.asarray(Image.fromarray((m*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(grow)))>0
     m&=np.asarray(Image.fromarray((inside*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5)))>0
-    known=(~m)&(np.abs(lum-bg)<=10)
-    w=harmonic(win,m,known)
+    # grow the fill from every unmasked pixel around the print, so it meets the
+    # fabric's own gradient at the edge instead of a darker or lighter average
+    w=harmonic(win,m,~m)
     w[m]+=rng.normal(0,noise,(m.sum(),1))
     out[Y0:Y1,X0:X1]=w
     return int(m.sum())
@@ -77,5 +78,18 @@ for k in range(1,8):
         if L[i]>est.mean()+8:
             out[top[i]+k, x0+i]=est+rng.normal(0,2.0); cnt+=1
 n['waist']=cnt
+# The bystander filming on the right is the one face the crop cannot lose without cutting
+# the athlete's legs. Soften him (head, hands, phone) as an out-of-focus background
+# figure; the mask stops above the athlete's thigh and well clear of the shorts.
+def soften(poly, sigma, feather):
+    X0,Y0,X1,Y1=800,790,980,980
+    win=Image.fromarray(np.clip(out[Y0:Y1,X0:X1],0,255).astype(np.uint8))
+    blur=np.asarray(win.filter(ImageFilter.GaussianBlur(sigma))).astype(np.float32)
+    pm=Image.new('L',win.size,0); ImageDraw.Draw(pm).polygon([(x-X0,y-Y0) for x,y in poly],fill=255)
+    a=np.asarray(pm.filter(ImageFilter.GaussianBlur(feather))).astype(np.float32)[...,None]/255
+    out[Y0:Y1,X0:X1]=out[Y0:Y1,X0:X1]*(1-a)+blur*a
+    return int((a>0.5).sum())
+n['bystander']=soften([(818,822),(940,822),(946,940),(904,942),(868,940),(852,934),(830,916),(818,905)],5,6)
+
 Image.fromarray(np.clip(out,0,255).astype(np.uint8)).save(DST,quality=95,method=6)
 print(n)
