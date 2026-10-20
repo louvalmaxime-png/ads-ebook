@@ -18,12 +18,12 @@ export type Photo = {
 export const PHOTO_A: Photo | null = {
   src: 'photos/front-lever-door-bar.webp',
   size: [600, 700],
-  origin: [0, 70],
-  scale: 1.2,
+  origin: [55, 80],
+  scale: 1.22,
   marks: [
-    [500, 412, 9], // right shoulder
-    [330, 296, -5], // upper back, between the arms
-    [128, 468, -10], // hips
+    [490, 404, 12], // right shoulder, in the doorway beside the deltoid
+    [382, 290, 4], // shoulder girdle, between the arms above the head
+    [140, 455, -10], // hips, in the gap left of the glutes
   ],
 };
 

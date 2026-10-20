@@ -17,11 +17,13 @@ export const C = {
 
 export const HEAD = "'Bebas Neue', 'Arial Narrow', sans-serif";
 export const BODY = "'Inter', 'Helvetica Neue', Arial, sans-serif";
+export const SERIF = "'Noto Serif', Georgia, serif"; // the MAXIME logo's face
 
 const FONTS: Array<[string, string, string]> = [
   ['Bebas Neue', 'fonts/bebas-400.woff2', '400'],
   ['Inter', 'fonts/inter-500.woff2', '500'],
   ['Inter', 'fonts/inter-600.woff2', '600'],
+  ['Noto Serif', 'fonts/noto-serif-700.woff2', '700'],
 ];
 for (const [family, file, weight] of FONTS) {
   loadFont({family, url: staticFile(file), weight});

@@ -90,21 +90,25 @@ Bouton d'action : **Shop Now**.
 
 `C/01.png` à `C/06.png` : la même histoire en 6 cartes 1080×1080, avec la nouvelle direction artistique.
 
-- Fond os `#F2EEE6`, texte noir `#0A0A0A`, un seul accent jaune acide `#EAFF00` par carte, posé en surlignage sous un mot. En texte sur fond clair, ce jaune serait illisible.
-- Titres en Bebas Neue, en capitales et à l'approche serrée ; petits textes en Inter. Grain argentique léger sur toute la carte.
-- Compteur en haut à droite (« 1/6 »), wordmark en bas à gauche : MAXIME en noir, CALISTHENICS en jaune sur une languette noire. Flèche de défilement sur la carte 1 uniquement.
+- Fond os `#F2EEE6`, texte noir `#0A0A0A`, un seul accent jaune acide `#EAFF00` par carte : un surlignage sous un mot, ou le coup de pinceau de la carte 1. En texte sur fond clair, ce jaune serait illisible.
+- Titres en Bebas Neue, en capitales et à l'approche serrée ; petits textes en Inter. Grain argentique fin sur toute la carte, réglé pour que le fond reste à `#F2EEE6` en moyenne.
+- Compteur en haut à droite (« 1/6 »), wordmark en bas à gauche : MAXIME en noir, CALISTHENICS en jaune sur une languette noire, tous deux en Noto Serif Bold, le caractère de ton logo. Pas de flèche de défilement : le brief exclut toute fausse interface.
 - 15 mots au plus par carte, wordmark et compteur non compris.
 
 | Carte | Texte | Mot surligné |
 |---|---|---|
-| 1 | Tuck to straddle feels like a wall. / BECAUSE IT IS ONE. | ONE. |
+| 1 | DISCIPLINED… / BUT TRAINING WITHOUT UNDERSTANDING? + ta photo au front lever, annotée au crayon | WITHOUT (coup de pinceau) |
 | 2 | FOUR STEPS THAT LOOK EQUAL. THEY AREN'T. + les 4 marches | AREN'T. |
 | 3 | "IT WAS HARD" IS NOT A NUMBER. / So when do you move up? | NUMBER. |
 | 4 | HOW HARD. HOW MUCH. WHEN. + les 3 tomes | WHEN. |
 | 5 | Avis d'Ilian, 5 étoiles, extrait mot pour mot | BLINDLY. |
 | 6 | $99.99 separately / ALL THREE $44.99 / 14-day money-back guarantee / GET THE PACK | $44.99 |
 
-Photos : seules les couvertures fournies apparaissent, en livres 3D et légèrement désaturées. Les athlètes ne sont ni recadrés ni redessinés. Il n'y a aucune photo en extérieur pour l'instant : avec des photos de parc, les cartes 1 et 3 peuvent en accueillir une.
+Photos : seules tes images apparaissent, sans aucune retouche de l'athlète.
+
+- Carte 1 : `motion-ad/photos/front-lever-door-bar.webp` (ta photo 2), presque en noir et blanc, fondue dans le ton du fond, à droite sous le titre. Elle déborde des bords droit et bas, et s'arrête à gauche avant le wordmark. Trois points d'interrogation au crayon, chacun dessiné différemment, près de l'épaule droite, au-dessus de la ceinture scapulaire et à côté des hanches. Le recadrage et la position des points se règlent dans `motion-ad/video/src/carousel/photos.ts`, en pixels de la photo.
+- Cartes 4 et 6 : les couvertures, en livres 3D, légèrement désaturées.
+- La photo de la carte 1 ne fait que 600×700 px : elle est agrandie de 22 %. Une version en plus haute définition donnerait un rendu plus net.
 
 Régénérer cette série seule : `DECKS=C node scripts/carousel.mjs` (depuis `motion-ad/video`). Le code est dans `motion-ad/video/src/carousel/Editorial.tsx`.
 
