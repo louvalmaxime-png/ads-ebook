@@ -1,7 +1,8 @@
 import React from 'react';
-import {AbsoluteFill} from 'remotion';
+import {AbsoluteFill, Img, staticFile} from 'remotion';
 import {Book3D, Pose} from '../ui/Book3D';
 import {BODY, HEAD} from '../theme';
+import {PHOTO_A, PREVIEW_MARKS} from './photos';
 
 // Deck C: the "sports-science editorial" art direction.
 // Bone ground, black type, one acid-yellow mark per card (never a flood),
@@ -128,19 +129,77 @@ const TRIO = (cy: number, h: number, cx: [number, number, number], ry: number): 
   {src: 'covers/volume.webp', pose: {cx: cx[1], cy: cy - h * 0.02, h: h * 1.03, rx: 0, ry: 0, rz: 0}},
 ];
 
-// 1 — Hook (10 words)
-const Hook: React.FC<P> = (p) => (
-  <Card {...p} swipe>
-    <div style={{position: 'absolute', left: M, top: 150, ...small(34, E.ink, 500)}}>Tuck to straddle feels like a wall.</div>
-    <div style={{position: 'absolute', left: M - 6, top: 228}}>
-      <div style={head(196)}>BECAUSE</div>
-      <div style={head(196)}>
-        IT IS <Mark>ONE.</Mark>
-      </div>
-    </div>
-    <Stairs x={576} base={930} w={420} h={300} />
-  </Card>
+// 1 — Hook (5 words): a strong athlete, annotated like a coaching sheet he can't read.
+const Brush: React.FC<{children: React.ReactNode}> = ({children}) => (
+  <span style={{position: 'relative', display: 'inline-block'}}>
+    {children}
+    <svg
+      viewBox="0 0 320 24"
+      preserveAspectRatio="none"
+      style={{position: 'absolute', left: '-4%', width: '108%', bottom: '-0.2em', height: '0.2em', overflow: 'visible'}}
+    >
+      <defs>
+        <filter id="dry" x="-5%" y="-60%" width="110%" height="220%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.035 0.6" numOctaves={2} seed={4} />
+          <feDisplacementMap in="SourceGraphic" scale={7} />
+        </filter>
+      </defs>
+      <path
+        d="M3 13 C 46 5, 128 3, 206 6 C 262 8, 300 5, 318 8 L 315 15 C 286 18, 214 20, 148 18 C 92 17, 42 21, 6 21 Z"
+        fill={E.acid}
+        filter="url(#dry)"
+      />
+    </svg>
+  </span>
 );
+
+// A pencil question mark: doubled, wobbling graphite line, like a note on a coaching sheet.
+const PencilQ: React.FC<{x: number; y: number; rot: number; seed: number}> = ({x, y, rot, seed}) => (
+  <svg width={56} height={84} viewBox="0 0 40 64" style={{position: 'absolute', left: x - 28, top: y - 42, transform: `rotate(${rot}deg)`, overflow: 'visible'}}>
+    <defs>
+      <filter id={`pencil${seed}`} x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves={2} seed={seed} result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale={2.2} />
+      </filter>
+    </defs>
+    <g filter={`url(#pencil${seed})`} stroke="#262626" fill="none" strokeLinecap="round">
+      <path d="M8 18 C 8 6, 32 3, 33 16 C 34 27, 21 29, 20 40 L 20.5 46" strokeWidth={2.6} opacity={0.85} />
+      <path d="M9.5 17 C 10 7.5, 30.5 5, 31.5 16.5 C 32 26, 22 28.5, 21.5 39" strokeWidth={1.2} opacity={0.45} />
+      <path d="M19.5 56 l 1.6 0.4 l -0.4 1.6 l -1.6 -0.3 Z" strokeWidth={2.4} opacity={0.85} />
+    </g>
+  </svg>
+);
+
+const FRAME = {x: 360, y: 438, w: S - 360, h: 522};
+const Hook: React.FC<P> = (p) => {
+  const marks = PHOTO_A?.marks ?? PREVIEW_MARKS;
+  return (
+    <Card {...p} swipe>
+      <div style={{position: 'absolute', left: FRAME.x, top: FRAME.y, width: FRAME.w, height: FRAME.h, overflow: 'hidden', background: E.block}}>
+        {PHOTO_A ? (
+          <Img
+            src={staticFile(PHOTO_A.src)}
+            style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: PHOTO_A.focus, filter: 'grayscale(0.92) contrast(1.05)'}}
+          />
+        ) : (
+          <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', ...small(22, E.muted, 600), letterSpacing: '0.16em'}}>
+            PHOTO A
+          </div>
+        )}
+      </div>
+      {marks.map(([fx, fy, rot], i) => (
+        <PencilQ key={i} x={FRAME.x + fx * FRAME.w} y={FRAME.y + fy * FRAME.h} rot={rot} seed={i + 2} />
+      ))}
+      <div style={{position: 'absolute', left: M - 5, top: 112, display: 'flex', flexDirection: 'column', gap: 14}}>
+        <div style={head(118)}>DISCIPLINED…</div>
+        <div style={head(118)}>
+          BUT TRAINING <Brush>WITHOUT</Brush>
+        </div>
+        <div style={head(118)}>UNDERSTANDING?</div>
+      </div>
+    </Card>
+  );
+};
 
 // 2 — The four steps (13 words)
 const Steps: React.FC<P> = (p) => (

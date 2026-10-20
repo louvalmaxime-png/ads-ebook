@@ -1,4 +1,5 @@
 node_modules/
-# synced from ../covers and ../audio by scripts/prepare.sh
+# synced from ../covers, ../audio and ../photos by scripts/prepare.sh
 public/covers/
 public/audio/
+public/photos/
