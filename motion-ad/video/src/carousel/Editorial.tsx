@@ -258,92 +258,81 @@ const Hook: React.FC<P> = (p) => {
 // 2 — The mirror (15 words): the reader's own training log, shot from above on
 // concrete. Every session written down, none of it measured.
 
-// Seeded so every render scatters the concrete pores the same way.
+// Seeded so every render draws the same concrete, handwriting jitter and strikes.
 const rand = (seed: number) => () => {
   seed = (seed * 16807) % 2147483647;
   return seed / 2147483647;
 };
+const gray = '0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 0 1';
+const contrast = (slope: number) => {
+  const intercept = 0.5 - slope / 2;
+  return (['R', 'G', 'B'] as const).map((c) => React.createElement(`feFunc${c}`, {key: c, type: 'linear', slope, intercept}));
+};
 
-// Concrete slab in daylight: large mottling, mid-scale trowel texture, fine aggregate
-// and a few pores, lit from the top left. Built in SVG so it renders the same every time.
+// Poured concrete in daylight: broad cloudy mottling, a softer trowel-scale layer,
+// fine sand, sparse aggregate flecks and pores, lit from the top left. It sits above
+// the page grain (which would tile on a mid-grey) and carries its own, untiled.
 const Concrete: React.FC<{w: number; h: number}> = ({w, h}) => {
   const r = rand(42);
-  const pores = Array.from({length: 110}, () => ({x: r() * w, y: r() * h, r: 0.6 + r() * r() * 2.2, o: 0.2 + r() * 0.3}));
-  const gray = '0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 0 1';
+  const pores = Array.from({length: 70}, () => ({
+    x: r() * w,
+    y: r() * h,
+    rx: 0.8 + r() * r() * 3.2,
+    k: 0.5 + r() * 0.5,
+    a: r() * 180,
+    o: 0.22 + r() * 0.3,
+  }));
+  const flecks = Array.from({length: 60}, () => ({
+    x: r() * w,
+    y: r() * h,
+    rx: 1.2 + r() * 2.4,
+    k: 0.55 + r() * 0.45,
+    a: r() * 180,
+    c: r() < 0.5 ? '#D9D4CB' : r() < 0.5 ? '#6F6B66' : '#B9B3A8',
+    o: 0.25 + r() * 0.3,
+  }));
   return (
     <svg width={w} height={h} style={{position: 'absolute', left: 0, top: 0}}>
       <defs>
         <filter id="concrete" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
-          <feFlood floodColor="#A09D97" result="base" />
-          <feTurbulence type="fractalNoise" baseFrequency="0.0035" numOctaves={4} seed={9} result="t1" />
+          <feFlood floodColor="#ADA9A2" result="base" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves={4} seed={9} result="t1" />
           <feColorMatrix in="t1" type="matrix" values={gray} result="g1" />
-          <feComponentTransfer in="g1" result="m1">
-            <feFuncR type="linear" slope={1.1} intercept={-0.05} />
-            <feFuncG type="linear" slope={1.1} intercept={-0.05} />
-            <feFuncB type="linear" slope={1.1} intercept={-0.05} />
-          </feComponentTransfer>
+          <feComponentTransfer in="g1" result="m1">{contrast(2.3)}</feComponentTransfer>
           <feBlend in="m1" in2="base" mode="soft-light" result="b1" />
-          <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves={3} seed={4} result="t2" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves={3} seed={4} result="t2" />
           <feColorMatrix in="t2" type="matrix" values={gray} result="g2" />
-          <feComponentTransfer in="g2" result="m2">
-            <feFuncR type="linear" slope={0.7} intercept={0.15} />
-            <feFuncG type="linear" slope={0.7} intercept={0.15} />
-            <feFuncB type="linear" slope={0.7} intercept={0.15} />
-          </feComponentTransfer>
-          <feBlend in="m2" in2="b1" mode="soft-light" result="b2a" />
-          <feTurbulence type="fractalNoise" baseFrequency="0.32" numOctaves={2} seed={13} result="t4" />
-          <feColorMatrix in="t4" type="matrix" values={gray} result="m4" />
-          <feBlend in="m4" in2="b2a" mode="soft-light" result="b2" />
-          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves={2} seed={21} result="t3" />
+          <feComponentTransfer in="g2" result="m2">{contrast(0.8)}</feComponentTransfer>
+          <feBlend in="m2" in2="b1" mode="soft-light" result="b2" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.3" numOctaves={2} seed={13} result="t3" />
           <feColorMatrix in="t3" type="matrix" values={gray} result="g3" />
-          <feComponentTransfer in="g3" result="m3">
-            <feFuncR type="discrete" tableValues="0.22 0.42 0.5 0.5 0.5 0.58 0.7" />
-            <feFuncG type="discrete" tableValues="0.22 0.42 0.5 0.5 0.5 0.58 0.7" />
-            <feFuncB type="discrete" tableValues="0.22 0.42 0.5 0.5 0.5 0.58 0.7" />
-          </feComponentTransfer>
-          <feBlend in="m3" in2="b2" mode="overlay" />
+          <feComponentTransfer in="g3" result="m3">{contrast(0.9)}</feComponentTransfer>
+          <feBlend in="m3" in2="b2" mode="soft-light" result="b3" />
+          <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves={1} seed={27} result="t4" />
+          <feColorMatrix in="t4" type="matrix" values={gray} result="g4" />
+          <feComponentTransfer in="g4" result="m4">{contrast(0.5)}</feComponentTransfer>
+          <feBlend in="m4" in2="b3" mode="overlay" />
         </filter>
         <radialGradient id="daylight" cx="0.18" cy="0.05" r="1.15">
-          <stop offset="0" stopColor="#fff" stopOpacity={0.16} />
+          <stop offset="0" stopColor="#fff" stopOpacity={0.14} />
           <stop offset="0.55" stopColor="#fff" stopOpacity={0} />
-          <stop offset="1" stopColor="#000" stopOpacity={0.16} />
+          <stop offset="1" stopColor="#000" stopOpacity={0.08} />
         </radialGradient>
       </defs>
       <rect width={w} height={h} filter="url(#concrete)" />
-      <g>
-        {pores.map((p, i) => (
-          <g key={i}>
-            <circle cx={p.x + 0.5} cy={p.y + 0.6} r={p.r} fill="#fff" opacity={p.o * 0.35} />
-            <circle cx={p.x} cy={p.y} r={p.r} fill="#3E3B37" opacity={p.o} />
-          </g>
-        ))}
-      </g>
+      {flecks.map((f, i) => (
+        <ellipse key={`f${i}`} cx={f.x} cy={f.y} rx={f.rx} ry={f.rx * f.k} transform={`rotate(${f.a} ${f.x} ${f.y})`} fill={f.c} opacity={f.o} />
+      ))}
+      {pores.map((p, i) => (
+        <g key={`p${i}`} transform={`rotate(${p.a} ${p.x} ${p.y})`}>
+          <ellipse cx={p.x + 0.5} cy={p.y + 0.7} rx={p.rx} ry={p.rx * p.k} fill="#fff" opacity={p.o * 0.35} />
+          <ellipse cx={p.x} cy={p.y} rx={p.rx} ry={p.rx * p.k} fill="#3E3B37" opacity={p.o} />
+        </g>
+      ))}
       <rect width={w} height={h} fill="url(#daylight)" />
     </svg>
   );
 };
-
-// A pen correction: one stroke through the word, or a quick zigzag scribble.
-const Strike: React.FC<{kind: 'line' | 'scribble'; children: React.ReactNode}> = ({kind, children}) => (
-  <span style={{position: 'relative', display: 'inline-block'}}>
-    {children}
-    <svg
-      viewBox="0 0 100 20"
-      preserveAspectRatio="none"
-      style={{position: 'absolute', left: '-6%', width: '112%', top: '0.28em', height: '0.5em', overflow: 'visible'}}
-    >
-      <path
-        d={kind === 'line' ? 'M0 13 C 30 11.5, 62 9.5, 100 7.5' : 'M0 12 L 7 3 L 12 17 L 20 3 L 26 17 L 34 3 L 40 17 L 48 3 L 54 17 L 62 3 L 68 17 L 76 3 L 82 17 L 90 4 L 96 15 L 100 6'}
-        stroke={INK}
-        strokeWidth={kind === 'line' ? 2.4 : 1.8}
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
-      />
-    </svg>
-  </span>
-);
 
 // One line of the log: what was written, optionally crossed out and rewritten after.
 type Entry = {text: string; struck?: 'line' | 'scribble'; then?: string};
@@ -353,81 +342,167 @@ const LOG: Entry[][] = [
     {text: 'very hard'},
     {text: 'hard', struck: 'line', then: 'very hard'},
     {text: 'felt hard again'},
-    {text: 'hard'},
     {text: 'very hard', struck: 'scribble', then: 'hard'},
     {text: 'felt hard again'},
-    {text: 'hard', struck: 'line', then: 'felt hard again'},
-    {text: 'very hard'},
+    {text: 'hard'},
   ],
   [
-    {text: 'hard'},
+    {text: 'very hard'},
     {text: 'hard', struck: 'line', then: 'very hard'},
     {text: 'felt hard again'},
-    {text: 'very hard'},
-    {text: 'felt hard again', struck: 'scribble', then: 'hard'},
-    {text: 'hard'},
+    {text: 'very hard', struck: 'scribble', then: 'hard'},
     {text: 'felt hard again'},
   ],
 ];
 const INK = '#20242C';
+const CHAR_W = 0.42; // Caveat's average advance, in em, to size strikes before layout
 
-const NB = {w: 704, h: 436, cover: 8, rule0: 56, pitch: 37.8};
+// Handwriting from a font, broken up letter by letter so repeated words never match:
+// each glyph gets its own small lift, tilt and width.
+const Hand: React.FC<{text: string; r: () => number}> = ({text, r}) => (
+  <>
+    {[...text].map((ch, i) =>
+      ch === ' ' ? (
+        <span key={i}> </span>
+      ) : (
+        <span
+          key={i}
+          style={{
+            display: 'inline-block',
+            transform: `translateY(${(r() - 0.5) * 2.4}px) rotate(${(r() - 0.5) * 6}deg) scaleX(${0.95 + r() * 0.1})`,
+            marginRight: `${(r() - 0.5) * 0.04}em`,
+          }}
+        >
+          {ch}
+        </span>
+      ),
+    )}
+  </>
+);
+
+// A pen correction drawn fresh for every word: one or two quick strokes through it,
+// or a scribble whose loops keep a hand-sized pitch whatever the word's length.
+const Strike: React.FC<{kind: 'line' | 'scribble'; text: string; size: number; r: () => number; children: React.ReactNode}> = ({
+  kind,
+  text,
+  size,
+  r,
+  children,
+}) => {
+  const w = text.length * CHAR_W * size;
+  const j = (a: number) => (r() - 0.5) * a;
+  let d: string;
+  if (kind === 'line') {
+    d = `M0 ${12 + j(4)} C 30 ${11 + j(3)}, 64 ${9 + j(3)}, 100 ${7.5 + j(4)}`;
+    if (r() < 0.5) d += ` M4 ${14 + j(3)} C 40 ${12 + j(3)}, 70 ${11 + j(3)}, 97 ${9.5 + j(3)}`;
+  } else {
+    const n = Math.max(6, Math.round(w / 8));
+    const pts: string[] = [`M0 ${10 + j(4)}`];
+    for (let k = 1; k <= n; k++) {
+      const x = (100 * k) / n + j(40 / n);
+      const up = k % 2 === 1;
+      pts.push(`L ${x.toFixed(1)} ${(up ? 2.5 + r() * 3 : 13.5 + r() * 4).toFixed(1)}`);
+    }
+    pts.push(`L 100 ${15 + j(3)}`);
+    d = pts.join(' ');
+  }
+  return (
+    <span style={{position: 'relative', display: 'inline-block'}}>
+      {children}
+      <svg
+        viewBox="0 0 100 20"
+        preserveAspectRatio="none"
+        style={{position: 'absolute', left: '-2%', width: '104%', top: '0.32em', height: '0.5em', overflow: 'visible'}}
+      >
+        <path d={d} stroke={INK} strokeWidth={kind === 'line' ? 2.3 : 1.9} fill="none" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      </svg>
+    </span>
+  );
+};
+
+const NB = {w: 690, h: 392, cover: 8, rule0: 58, pitch: 46};
+const PW = NB.w / 2 - NB.cover;
+const PH = NB.h - 2 * NB.cover;
+const DIP = 46; // the last px before the spine where the page curves down into it
+
+// A page seen from straight above: head and tail edges and the rules dip slightly as
+// the paper bends into the spine; the fold is a soft valley, not a drawn line.
 const Page: React.FC<{side: 0 | 1}> = ({side}) => {
-  const pw = NB.w / 2 - NB.cover;
-  const ph = NB.h - 2 * NB.cover;
-  const toGutter = side === 0 ? 'to right' : 'to left';
+  const mx = (x: number) => (side === 0 ? x : PW - x); // mirror for the right page
+  const edge = `M${mx(0)} 0 L${mx(PW - DIP)} 0 Q${mx(PW - 12)} 1 ${mx(PW)} 4 L${mx(PW)} ${PH - 4} Q${mx(PW - 12)} ${PH - 1} ${mx(PW - DIP)} ${PH} L${mx(0)} ${PH} Z`;
   const r = rand(7 + side * 13);
+  const toGutter = side === 0 ? 'to right' : 'to left';
   return (
     <div
       style={{
         position: 'absolute',
         left: side === 0 ? NB.cover : NB.w / 2,
         top: NB.cover,
-        width: pw,
-        height: ph,
-        overflow: 'hidden',
-        background: `linear-gradient(${toGutter}, rgba(70,60,50,0.07) 0%, rgba(0,0,0,0) 9%, rgba(255,255,255,0.18) 40%, rgba(0,0,0,0) 74%, rgba(70,58,46,0.12) 90%, rgba(48,38,28,0.34) 100%), #F2EEE6`,
+        width: PW,
+        height: PH,
+        clipPath: `path('${edge}')`,
+        background: `linear-gradient(${toGutter}, rgba(70,60,50,0.07) 0%, rgba(0,0,0,0) 8%, rgba(255,255,255,0.16) 62%, rgba(0,0,0,0) 74%, rgba(60,48,36,0.16) 86%, rgba(40,30,20,0.46) 100%), #F2EEE6`,
       }}
     >
       <div style={{position: 'absolute', inset: 0, backgroundImage: GRAIN, opacity: 0.18, mixBlendMode: 'overlay'}} />
-      <svg width={pw} height={ph} style={{position: 'absolute', left: 0, top: 0}}>
-        {Array.from({length: 10}, (_, i) => (
-          <line key={i} x1={0} x2={pw} y1={NB.rule0 + i * NB.pitch} y2={NB.rule0 + i * NB.pitch} stroke="#8C8A86" strokeOpacity={0.32} strokeWidth={1} />
-        ))}
-      </svg>
-      <div style={{position: 'absolute', inset: 0, filter: 'url(#ink)'}}>
-        {LOG[side].map((e, i) => {
-          const size = 29 + r() * 3;
+      <svg width={PW} height={PH} style={{position: 'absolute', left: 0, top: 0}}>
+        {Array.from({length: 8}, (_, i) => {
+          const y = NB.rule0 + i * NB.pitch;
+          if (y > PH - 6) return null;
           return (
-            <div
+            <path
               key={i}
-              style={{
-                position: 'absolute',
-                left: (side === 0 ? 28 : 22) + r() * 12 + i * 0.7,
-                top: NB.rule0 + i * NB.pitch - size * 0.98,
-                transform: `rotate(${-1.6 + r() * 2.2}deg)`,
-                transformOrigin: '0 100%',
-                fontFamily: HAND,
-                fontSize: size,
-                lineHeight: 1,
-                color: INK,
-                opacity: 0.86 + r() * 0.1,
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {e.struck ? <Strike kind={e.struck}>{e.text}</Strike> : e.text}
-              {e.then && <span style={{marginLeft: 14}}>{e.then}</span>}
-            </div>
+              d={`M${mx(0)} ${y} L${mx(PW - DIP)} ${y} Q${mx(PW - 14)} ${y + 0.6} ${mx(PW)} ${y + 2.4}`}
+              stroke="#8C8A86"
+              strokeOpacity={0.34}
+              strokeWidth={1}
+              fill="none"
+            />
           );
         })}
-      </div>
+      </svg>
+      {LOG[side].map((e, i) => {
+        const size = 40 + r() * 3;
+        return (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              left: (side === 0 ? 26 : 22) + r() * 12,
+              top: NB.rule0 + i * NB.pitch - size * 0.84 + (r() - 0.6) * 2.5,
+              transform: `rotate(${-1.4 + r() * 2}deg) skewX(${-4 + r() * 6}deg)`,
+              transformOrigin: '0 100%',
+              fontFamily: HAND,
+              fontWeight: 500,
+              fontSize: size,
+              lineHeight: 1,
+              color: INK,
+              opacity: 0.82 + r() * 0.13,
+              whiteSpace: 'nowrap',
+              filter: `url(#ink${i % 3})`,
+            }}
+          >
+            {e.struck ? (
+              <Strike kind={e.struck} text={e.text} size={size} r={r}>
+                <Hand text={e.text} r={r} />
+              </Strike>
+            ) : (
+              <Hand text={e.text} r={r} />
+            )}
+            {e.then && (
+              <span style={{marginLeft: 22}}>
+                <Hand text={e.then} r={r} />
+              </span>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };
 
-// Open hardcover notebook seen from straight above: black boards around bone pages,
-// a page block on each outer edge, the gutter falling into shadow, and a soft
-// daylight shadow on the slab, cast down and to the right.
+// Open hardcover notebook from straight above: black boards with a faint lit edge,
+// page blocks on the outer edges, and a soft daylight shadow down and to the right.
 const Notebook: React.FC<{cx: number; cy: number; rot: number}> = ({cx, cy, rot}) => (
   <div
     style={{
@@ -439,23 +514,27 @@ const Notebook: React.FC<{cx: number; cy: number; rot: number}> = ({cx, cy, rot}
       transform: `rotate(${rot}deg)`,
       borderRadius: 7,
       background: '#1B1B1C',
-      boxShadow: '2px 3px 4px rgba(20,18,16,0.45), 16px 22px 34px rgba(20,18,16,0.38), 34px 44px 70px rgba(20,18,16,0.22)',
+      boxShadow:
+        'inset 1px 1px 0 rgba(255,255,255,0.10), 1px 2px 2px rgba(20,18,16,0.45), 8px 12px 18px rgba(20,18,16,0.32), 18px 26px 44px rgba(20,18,16,0.16)',
     }}
   >
     <svg width={0} height={0} style={{position: 'absolute'}}>
-      <filter id="ink" x="-5%" y="-5%" width="110%" height="110%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves={2} seed={5} result="n" />
-        <feDisplacementMap in="SourceGraphic" in2="n" scale={1.4} result="d" />
-        <feGaussianBlur in="d" stdDeviation={0.25} />
-      </filter>
+      {[0, 1, 2].map((k) => (
+        <filter key={k} id={`ink${k}`} x="-5%" y="-10%" width="110%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves={2} seed={5 + k * 11} result="n" />
+          <feDisplacementMap in="SourceGraphic" in2="n" scale={1.3} result="d" />
+          <feGaussianBlur in="d" stdDeviation={0.25} />
+        </filter>
+      ))}
     </svg>
+    <div style={{position: 'absolute', inset: 0, borderRadius: 7, backgroundImage: GRAIN, opacity: 0.35, mixBlendMode: 'overlay'}} />
     {[0, 1].map((side) => (
       <div
         key={side}
         style={{
           position: 'absolute',
-          top: NB.cover - 2,
-          bottom: NB.cover - 2,
+          top: NB.cover,
+          bottom: NB.cover,
           width: 5,
           [side === 0 ? 'left' : 'right']: NB.cover - 4,
           background: 'repeating-linear-gradient(to right, #D9D3C8 0 1px, #F1ECE3 1px 2px)',
@@ -465,22 +544,36 @@ const Notebook: React.FC<{cx: number; cy: number; rot: number}> = ({cx, cy, rot}
     ))}
     <Page side={0} />
     <Page side={1} />
-    <div style={{position: 'absolute', left: NB.w / 2 - 1, top: NB.cover, width: 2, height: NB.h - 2 * NB.cover, background: 'rgba(30,24,18,0.35)'}} />
+    <div
+      style={{
+        position: 'absolute',
+        left: NB.w / 2 - 9,
+        top: NB.cover,
+        width: 18,
+        height: NB.h - 2 * NB.cover,
+        background: 'linear-gradient(to right, rgba(30,24,18,0) 0%, rgba(30,24,18,0.22) 50%, rgba(30,24,18,0) 100%)',
+      }}
+    />
+    <div style={{position: 'absolute', inset: 0, borderRadius: 7, background: 'linear-gradient(150deg, rgba(255,255,255,0.04), rgba(0,0,0,0.07))'}} />
   </div>
 );
 
-const BAND = {y: 380, h: 512};
+const BAND = {y: 376, h: 492};
 const Mirror: React.FC<P> = (p) => (
-  <Card {...p}>
+  <Card
+    {...p}
+    front={
+      <div style={{position: 'absolute', left: 0, top: BAND.y, width: S, height: BAND.h, overflow: 'hidden'}}>
+        <Concrete w={S} h={BAND.h} />
+        <Notebook cx={544} cy={BAND.h / 2 - 5} rot={-1.6} />
+      </div>
+    }
+  >
     <div style={{position: 'absolute', left: M - 5, top: 119, display: 'flex', flexDirection: 'column', gap: 14}}>
       <div style={head(124)}>YOU SHOW UP.</div>
       <div style={head(124)}>EVERY SESSION.</div>
     </div>
-    <div style={{position: 'absolute', left: 0, top: BAND.y, width: S, height: BAND.h, overflow: 'hidden'}}>
-      <Concrete w={S} h={BAND.h} />
-      <Notebook cx={546} cy={BAND.h / 2 - 2} rot={-2.6} />
-    </div>
-    <div style={{position: 'absolute', left: M, top: BAND.y + BAND.h + 26, ...small(34, E.muted, 500)}}>
+    <div style={{position: 'absolute', left: M, top: BAND.y + BAND.h + 16, ...small(34, E.muted, 500)}}>
       But you can’t say <b style={{color: E.ink, fontWeight: 700}}>how hard</b>, <b style={{color: E.ink, fontWeight: 700}}>how much</b>, or{' '}
       <b style={{color: E.ink, fontWeight: 700}}>when</b>.
     </div>
