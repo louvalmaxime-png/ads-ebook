@@ -651,30 +651,63 @@ const Switch: React.FC<P> = (p) => (
   </Card>
 );
 
-// 4 — The system (12 words)
-const SYSTEM = [
-  {x: 246, text: '1–10 intensity scale'},
-  {x: 540, text: 'Volume calculator'},
-  {x: 834, text: 'Weeks & months, planned'},
-];
-const System: React.FC<P> = (p) => (
-  <Card
-    {...p}
-    front={TRIO(500, 400, [246, 540, 834], 14).map((b) => (
-      <Book3D key={b.src} src={b.src} pose={b.pose} filter={covers} />
-    ))}
-  >
-    <div style={{position: 'absolute', left: M - 4, top: 120, ...head(100)}}>
-      HOW HARD. HOW MUCH. <Mark>WHEN.</Mark>
-    </div>
-    {SYSTEM.map((s) => (
-      <div key={s.x} style={{position: 'absolute', left: s.x - 140, width: 280, top: 750, textAlign: 'center'}}>
-        <div style={{height: 2, background: E.rule, width: 48, margin: '0 auto 16px'}} />
-        <div style={{...small(26, E.ink, 600)}}>{s.text}</div>
-      </div>
-    ))}
-  </Card>
+// 4 — Three questions, three answers (11 words): the three books standing on the bone
+// ground, each under the question it answers. Cover artwork untouched: no tint, no
+// sheen, no grain over it.
+const SHELF = {
+  base: 880, // where the books stand
+  h: 420,
+  books: [
+    {src: 'covers/intensity.webp', cx: 236, ry: 16, q: 'HOW HARD?'},
+    {src: 'covers/volume.webp', cx: 540, ry: 0, q: 'HOW MUCH?'},
+    {src: 'covers/periodization.webp', cx: 844, ry: -16, q: 'WHEN?'},
+  ],
+};
+// Soft contact shadow where a book meets the ground: a wide ambient pool and a tight
+// dark line under the base, tilted with the base's slight perspective slant.
+const Contact: React.FC<{cx: number; w: number; tilt: number}> = ({cx, w, tilt}) => (
+  <div style={{position: 'absolute', left: cx - w * 0.66, top: SHELF.base - 22, width: w * 1.32, height: 44, transform: `rotate(${tilt}deg)`}}>
+    <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(closest-side, rgba(28,22,16,0.34), rgba(28,22,16,0.13) 55%, rgba(28,22,16,0) 100%)'}} />
+    <div
+      style={{
+        position: 'absolute',
+        left: w * 0.12,
+        right: w * 0.12,
+        top: 20,
+        height: 8,
+        background: 'radial-gradient(closest-side, rgba(12,10,8,0.7), rgba(12,10,8,0) 100%)',
+        filter: 'blur(1px)',
+      }}
+    />
+  </div>
 );
+const Questions: React.FC<P> = (p) => {
+  const w = (SHELF.h * 2) / 3;
+  return (
+    <Card
+      {...p}
+      front={SHELF.books.map((b) => (
+        <React.Fragment key={b.src}>
+          <Contact cx={b.cx} w={w * Math.cos((b.ry * Math.PI) / 180) + 14} tilt={-b.ry * 0.12} />
+          <Book3D src={b.src} pose={{cx: b.cx, cy: SHELF.base - SHELF.h / 2, h: SHELF.h, rx: 0, ry: b.ry, rz: 0}} sheen={false} />
+        </React.Fragment>
+      ))}
+    >
+      <div style={{position: 'absolute', left: M - 5, top: 119, display: 'flex', flexDirection: 'column', gap: 14}}>
+        <div style={head(124)}>EVERY SESSION STOPS</div>
+        <div style={head(124)}>BEING A GUESS.</div>
+      </div>
+      {SHELF.books.map((b) => (
+        <div
+          key={b.q}
+          style={{position: 'absolute', left: b.cx - 150, width: 300, top: SHELF.base - SHELF.h - 58, textAlign: 'center', ...small(26, E.ink, 600), letterSpacing: '0.18em'}}
+        >
+          {b.q}
+        </div>
+      ))}
+    </Card>
+  );
+};
 
 // 5 — Proof (13 words; a verbatim excerpt of Ilian's 5-star review)
 const STAR = 'M12 2.5 L14.9 8.6 L21.5 9.4 L16.6 13.9 L17.9 20.5 L12 17.3 L6.1 20.5 L7.4 13.9 L2.5 9.4 L9.1 8.6 Z';
@@ -734,4 +767,4 @@ const Offer: React.FC<P> = (p) => (
   </Card>
 );
 
-export const DECK_C: React.FC<P>[] = [Hook, Mirror, Switch, System, Proof, Offer];
+export const DECK_C: React.FC<P>[] = [Hook, Mirror, Switch, Questions, Proof, Offer];

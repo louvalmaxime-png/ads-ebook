@@ -24,11 +24,13 @@ const HINGE =
 const SHEEN =
   'linear-gradient(118deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 36%, rgba(0,0,0,0) 68%, rgba(0,0,0,0.16) 100%)';
 
-export const Book3D: React.FC<{src: string; pose: Pose; filter?: string; opacity?: number}> = ({
+// sheen: a soft studio highlight across the board; off where the artwork must stay as supplied.
+export const Book3D: React.FC<{src: string; pose: Pose; filter?: string; opacity?: number; sheen?: boolean}> = ({
   src,
   pose,
   filter,
   opacity = 1,
+  sheen = true,
 }) => {
   const {h} = pose;
   const w = (h * 2) / 3;
@@ -99,7 +101,7 @@ export const Book3D: React.FC<{src: string; pose: Pose; filter?: string; opacity
         >
           <Img src={staticFile(src)} style={{width: '100%', height: '100%', display: 'block'}} />
           <div style={{position: 'absolute', inset: 0, background: HINGE}} />
-          <div style={{position: 'absolute', inset: 0, background: SHEEN}} />
+          {sheen && <div style={{position: 'absolute', inset: 0, background: SHEEN}} />}
         </div>
       </div>
     </div>

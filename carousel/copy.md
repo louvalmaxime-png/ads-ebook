@@ -100,7 +100,7 @@ Bouton d'action : **Shop Now**.
 | 1 | DISCIPLINED… / BUT TRAINING WITHOUT UNDERSTANDING? + ta photo au front lever, annotée au crayon | WITHOUT (coup de pinceau) |
 | 2 | YOU SHOW UP. EVERY SESSION. / But you can’t say **how hard**, **how much**, or **when**. + carnet d'entraînement ouvert sur du béton | aucun (le brief n'en demande pas) |
 | 3 | DUMB & DISCIPLINED / ~~train hard. hope.~~ · SMART & DISCIPLINED / train hard. know why. + ta planche, deux fois | SMART (languette noire) |
-| 4 | HOW HARD. HOW MUCH. WHEN. + les 3 tomes | WHEN. |
+| 4 | EVERY SESSION STOPS BEING A GUESS. + HOW HARD? / HOW MUCH? / WHEN? au-dessus des 3 tomes | aucun (le brief n'en demande pas) |
 | 5 | Avis d'Ilian, 5 étoiles, extrait mot pour mot | BLINDLY. |
 | 6 | $99.99 separately / ALL THREE $44.99 / 14-day money-back guarantee / GET THE PACK | $44.99 |
 
@@ -109,7 +109,8 @@ Photos : seules tes images apparaissent, sans aucune retouche de l'athlète.
 - Carte 1 : ta photo 2, presque en noir et blanc, fondue dans le ton du fond, à droite sous le titre. Le fichier utilisé est `motion-ad/photos/front-lever-door-bar-nologo.webp` : les deux virgules Nike des chaussettes y sont effacées, car le brief n'autorise aucun logo en dehors du wordmark. Seules les chaussettes sont retouchées. L'original `front-lever-door-bar.webp` reste à côté. Elle déborde des bords droit et bas, et s'arrête à gauche avant le wordmark. Trois points d'interrogation au crayon, chacun dessiné différemment, près de l'épaule droite, au-dessus de la ceinture scapulaire et à côté des hanches. Le recadrage et la position des points se règlent dans `motion-ad/video/src/carousel/photos.ts`, en pixels de la photo.
 - Carte 2 : aucune photo. La mise à plat (béton, carnet ouvert, écriture au stylo) est dessinée en code, car tu n'as pas de photo de carnet. L'écriture utilise la police Caveat, déformée lettre par lettre pour qu'aucun mot répété ne soit identique. Les lignes du carnet se modifient dans `LOG` (`Editorial.tsx`). Si tu photographies un vrai carnet un jour, je peux le mettre à la place.
 - Carte 3 : ta planche sur parallettes au parc (DSC05664), avec le même cadrage dans les deux moitiés. À gauche en niveaux de gris et légèrement floue, à droite en couleurs naturelles et nette. Le cadrage montre toute la ligne, de la tête aux jambes, avec les deux mains et les deux parallettes. Les spectateurs sont coupés sous le visage. Celui qui filme avec son téléphone ne peut pas sortir du cadre sans couper tes jambes : il est flouté comme un arrière-plan hors mise au point. Pour une pub payante, l'idéal reste son autorisation écrite. Le fichier utilisé est `motion-ad/photos/planche-park-nologo.webp` : le marquage OFFICIAL du short, l'inscription d'un élastique de caleçon, le logo d'une casquette, celui d'un poignet et VIA FORTIS sur un socle de parallette y sont effacés. Seuls les vêtements, le matériel et ce spectateur sont retouchés, jamais ton corps, et l'original `planche-park.jpg` reste à côté. Le script de retouche est dans `motion-ad/photos/nologo_planche.py`.
-- Cartes 4 et 6 : les couvertures, en livres 3D, légèrement désaturées.
+- Carte 4 : les trois couvertures telles que fournies (aucune teinte, aucun reflet, aucun grain par-dessus), en livres 3D debout, légèrement tournés, avec une ombre de contact sur le fond os.
+- Carte 6 : les couvertures, en livres 3D, légèrement désaturées.
 - La photo de la carte 1 ne fait que 600×700 px : elle est agrandie de 22 %. Une version en plus haute définition donnerait un rendu plus net.
 
 Régénérer cette série seule : `DECKS=C node scripts/carousel.mjs` (depuis `motion-ad/video`). Le code est dans `motion-ad/video/src/carousel/Editorial.tsx`.
