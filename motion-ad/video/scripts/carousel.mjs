@@ -7,7 +7,8 @@ import {getCompositions, renderStill} from '@remotion/renderer';
 const outRoot = path.resolve(process.argv[2] ?? '../../carousel');
 const browserExecutable = process.env.REMOTION_BROWSER ?? null;
 const serveUrl = await bundle({entryPoint: path.resolve('src/index.ts')});
-const comps = (await getCompositions(serveUrl, {browserExecutable})).filter((c) => /^Card[AB]\d\d$/.test(c.id));
+const only = process.env.DECKS ?? "ABC";
+const comps = (await getCompositions(serveUrl, {browserExecutable})).filter((c) => /^Card[A-Z]\d\d$/.test(c.id) && only.includes(c.id[4]));
 for (const composition of comps) {
   const deck = composition.id[4];
   const nn = composition.id.slice(5);

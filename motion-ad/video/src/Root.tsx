@@ -27,7 +27,7 @@ export const RemotionRoot: React.FC = () => (
       defaultProps={{fmt: '45' as const}}
     />
     <Composition id="ReelA" component={ReelA} durationInFrames={REEL_DURATION} fps={FPS} width={1080} height={1920} />
-    {(['A', 'B'] as const).flatMap((deck) =>
+    {(['A', 'B', 'C'] as const).flatMap((deck) =>
       DECKS[deck].map((_, i) => (
         <Composition
           key={`${deck}${i + 1}`}

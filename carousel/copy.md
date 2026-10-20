@@ -86,6 +86,28 @@ Bouton d'action : **Shop Now**.
 - Son : musique originale à 120 BPM et effets synthétisés, calés sur l'image (−14 LUFS). Pistes séparées dans `video/audio/` : `reel_A_mix.m4a`, `reel_A_music.m4a`, `reel_A_sfx.m4a`. Pour changer la musique, garde les effets et remplace la piste musique dans CapCut.
 - Régénérer l'image et le son : `cd motion-ad/video && ./scripts/render-reel.sh`. Le son seul : `python3 motion-ad/sound/design.py reel`.
 
+## Série C : direction artistique éditoriale
+
+`C/01.png` à `C/06.png` : la même histoire en 6 cartes 1080×1080, avec la nouvelle direction artistique.
+
+- Fond os `#F2EEE6`, texte noir `#0A0A0A`, un seul accent jaune acide `#EAFF00` par carte, posé en surlignage sous un mot. En texte sur fond clair, ce jaune serait illisible.
+- Titres en Bebas Neue, en capitales et à l'approche serrée ; petits textes en Inter. Grain argentique léger sur toute la carte.
+- Compteur en haut à droite (« 1/6 »), wordmark en bas à gauche : MAXIME en noir, CALISTHENICS en jaune sur une languette noire. Flèche de défilement sur la carte 1 uniquement.
+- 15 mots au plus par carte, wordmark et compteur non compris.
+
+| Carte | Texte | Mot surligné |
+|---|---|---|
+| 1 | Tuck to straddle feels like a wall. / BECAUSE IT IS ONE. | ONE. |
+| 2 | FOUR STEPS THAT LOOK EQUAL. THEY AREN'T. + les 4 marches | AREN'T. |
+| 3 | "IT WAS HARD" IS NOT A NUMBER. / So when do you move up? | NUMBER. |
+| 4 | HOW HARD. HOW MUCH. WHEN. + les 3 tomes | WHEN. |
+| 5 | Avis d'Ilian, 5 étoiles, extrait mot pour mot | BLINDLY. |
+| 6 | $99.99 separately / ALL THREE $44.99 / 14-day money-back guarantee / GET THE PACK | $44.99 |
+
+Photos : seules les couvertures fournies apparaissent, en livres 3D et légèrement désaturées. Les athlètes ne sont ni recadrés ni redessinés. Il n'y a aucune photo en extérieur pour l'instant : avec des photos de parc, les cartes 1 et 3 peuvent en accueillir une.
+
+Régénérer cette série seule : `DECKS=C node scripts/carousel.mjs` (depuis `motion-ad/video`). Le code est dans `motion-ad/video/src/carousel/Editorial.tsx`.
+
 ## Régénérer les images
 
 ```bash

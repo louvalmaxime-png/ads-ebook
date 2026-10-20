@@ -2,6 +2,7 @@ import React from 'react';
 import {Bubble} from '../ui/Bubble';
 import {Book3D, Pose} from '../ui/Book3D';
 import {bookFilter} from '../scenes/IntensityBook';
+import {DECK_C} from './Editorial';
 import {C, Card, Check, Eyebrow, INNER, M, Ruler, S, Stairs, Stars, body, centerText, head} from './parts';
 
 type P = {index: number; total: number};
@@ -224,13 +225,15 @@ export const Offer: React.FC<P> = (p) => (
   </Card>
 );
 
-// Two decks for the A/B hook test: only the opening differs.
-export const DECKS: Record<'A' | 'B', React.FC<P>[]> = {
+// A and B: the hook test, only the opening differs.
+export const DECKS: Record<'A' | 'B' | 'C', React.FC<P>[]> = {
   A: [HookWall, Steps, Cause, Instrument, System, Proof, Offer],
   B: [HookNumber, Steps, Instrument, System, Proof, Offer],
+  // C: same story, editorial art direction (bone, black, acid yellow).
+  C: DECK_C,
 };
 
-export const CarouselCard: React.FC<{deck: 'A' | 'B'; index: number}> = ({deck, index}) => {
+export const CarouselCard: React.FC<{deck: 'A' | 'B' | 'C'; index: number}> = ({deck, index}) => {
   const cards = DECKS[deck];
   const Comp = cards[index - 1];
   return <Comp index={index} total={cards.length} />;
