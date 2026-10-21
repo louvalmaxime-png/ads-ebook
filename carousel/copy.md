@@ -121,15 +121,70 @@ Photos : seules tes images apparaissent, sans aucune retouche de l'athlète.
 
 Ces textes ne reprennent que ce qui est sur les cartes et dans ce document. Les points marqués « à confirmer » restent en suspens tant que tu ne les as pas validés.
 
-Texte principal :
+Texte principal, version A (à diffuser en premier) :
 
 ```
-You show up every session. But can you say how hard, how much, or when?
+If discipline alone built a full planche, you’d hold one by now.
+Discipline isn’t the bottleneck. Understanding is.
 
-Static Strength is 3 digital ebooks for planche and front lever: Intensity (how hard), Volume (how much), Periodization (when).
+You show up every session, stuck between tuck and straddle.
+Your log says “hard” every time. But “hard” isn’t data.
+So you guess when to move up, and hope it holds.
 
-The 3-book pack: 59.99$. Instant download, private Discord included.
+Static Strength: 3 digital ebooks, two skills only.
+The full planche and the front lever.
+
+Intensity: how hard. A 1–10 scale for static holds, so you know when to progress.
+Volume: how much. Excel calculator included.
+Periodization: when. How to structure weeks and months.
+
+All 3 for 59.99$. Instant download, private Discord included.
+
+Train hard. Know why.
+Tap Shop Now: maximecalisthenics.com
 ```
+
+Version B, à tester contre A (accroche « miroir ») :
+
+```
+You show up every session. Your log says “hard” every time. And you’re still on the same planche or front lever progression.
+
+But “hard” isn’t a number.
+So you guess when to move up, and hope it holds.
+
+Static Strength answers three questions:
+How hard? Intensity: a 1–10 scale for static holds, so you know exactly when to progress.
+How much? Volume, with an Excel calculator.
+When? Periodization: how to structure weeks and months of training.
+
+3 digital ebooks, two skills only: the full planche and the front lever.
+59.99$ for the pack. Instant download, private Discord included.
+
+Tap Shop Now: maximecalisthenics.com
+```
+
+Version C, à tester contre A (accroche « trois questions ») :
+
+```
+Your last session:
+How hard was it? How much did you do? When should you progress?
+No answer? You’re guessing.
+
+“Felt hard again” isn’t data.
+
+Static Strength is 3 digital ebooks. Each one answers one question:
+1. Intensity: how hard. A 1–10 scale for static holds.
+2. Volume: how much. With an Excel calculator.
+3. Periodization: when. How to structure weeks and months.
+
+Private Discord included. Instant download.
+All 3 ebooks: 59.99$.
+
+Train hard. Know why.
+Tap Shop Now: maximecalisthenics.com
+```
+
+Les trois textes n'utilisent que des faits confirmés. Ils ne contiennent ni garantie, ni prix de référence, ni rareté, ni avis nommé. Si la garantie de 14 jours est confirmée, ajoute « 14-day money-back guarantee. » après la ligne du prix.
 
 Titres et descriptions des cartes (titre de 40 caractères au plus) :
 
